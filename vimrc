@@ -17,12 +17,6 @@ set directory=~/.vim/swp//
 set backup
 set undofile
 
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-set autoindent
-
 set cursorline
 set textwidth=79
 set colorcolumn=80

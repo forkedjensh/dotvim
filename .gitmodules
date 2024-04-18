@@ -67,3 +67,6 @@
 [submodule "pack/plugins/start/wmgraphviz.vim"]
 	path = pack/plugins/start/wmgraphviz.vim
 	url = https://github.com/wannesm/wmgraphviz.vim
+[submodule "pack/plugins/start/vim-sleuth"]
+	path = pack/plugins/start/vim-sleuth
+	url = https://github.com/tpope/vim-sleuth.git
