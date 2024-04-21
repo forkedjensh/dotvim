@@ -23,6 +23,12 @@ set colorcolumn=80
 set wrap
 set formatoptions=qrn1
 
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set autoindent
+
 set noshowmode
 set showcmd
 set hidden
