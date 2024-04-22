@@ -49,14 +49,8 @@ nnoremap / /\v
 nnoremap <leader><space> :noh<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-nnoremap <tab> %
-vnoremap <tab> %
 nnoremap j gj
 nnoremap k gk
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
 vnoremap / /\v
 
 " Zoom window to new tab
@@ -93,10 +87,44 @@ autocmd BufRead,BufNewFile *.yml set filetype=yaml.ansible
 " autocmd FileType python setlocal formatprg=autopep8\ -\ 2>\ /dev/null
 autocmd FileType python setlocal formatprg=black\ -l79\ -\ 2>\ /dev/null
 
-" Solve ycm ultisnips key mapping problem
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" mucomplete
+set completeopt+=menuone
+set completeopt+=noselect
+let g:mucomplete#enable_auto_at_startup = 1
+set complete-=i
+set complete-=t
+set belloff=all
+
+let g:mucomplete#chains = {}
+let g:mucomplete#chains['default']   =  {
+    \ 'default': ['ulti',  'list',  'omni',  'path',  'c-n',   'uspl'],
+    \ '.*string.*': ['uspl'],
+    \ '.*comment.*': ['uspl']
+    \ }
+let g:mucomplete#chains['html']      =  ['ulti',  'omni',  'path',  'c-n',   'uspl']
+let g:mucomplete#chains['vim']       =  ['ulti',  'list',  'cmd',   'path',  'keyp']
+let g:mucomplete#chains['tex']       =  ['ulti',  'path',  'omni',  'uspl',  'dict',  'c-n']
+let g:mucomplete#chains['sh']        =  ['ulti',  'file',  'dict',  'keyp']
+let g:mucomplete#chains['zsh']       =  ['ulti',  'file',  'dict',  'keyp']
+let g:mucomplete#chains['java']      =  ['ulti',  'keyn',  'c-n',   'omni']
+let g:mucomplete#chains['javascript']=  ['ulti',  'tags',  'omni',  'c-n']
+let g:mucomplete#chains['c']         =  ['ulti',  'list',  'omni',  'omni', 'c-n']
+let g:mucomplete#chains['go']        =  ['ulti',  'list',  'omni',  'c-n']
+let g:mucomplete#chains['troff']     =  ['ulti',  'omni',  'keyn',   'uspl',  'dict']
+let g:mucomplete#chains['nroff']     =  g:mucomplete#chains['troff']
+let g:mucomplete#chains['markdown']  =  ['ulti',  'path',  'c-n',   'uspl',  'dict']
+let g:mucomplete#chains['dotoo']     =  g:mucomplete#chains['markdown']
+let g:mucomplete#chains['mail']      =  g:mucomplete#chains['markdown']
+let g:mucomplete#chains['gitcommit'] =  g:mucomplete#chains['markdown']
+
+inoremap <silent> <expr> <plug>MyCR
+    \ mucomplete#ultisnips#expand_snippet("\<cr>")
+imap <cr> <plug>MyCR
+
+" Solve mucomplete ultisnips key mapping problem
+let g:UltiSnipsExpandTrigger="<nop>"
+let g:UltiSnipsJumpForwardTrigger="<nop>"
+let g:UltiSnipsJumpBackwardTrigger="<nop>"
 
 " Lightline
 function MyFugitiveHead()
@@ -118,14 +146,10 @@ let g:lightline = {
     \ },
 \ }
 
-"UltiSnips
+" UltiSnips
 let g:ultisnips_python_style="numpy"
 
-" ReST tables with vim-table-mode
-let g:table_mode_corner_corner="+"
-let g:table_mode_header_fillchar="="
-
-" Let ales populate the quickfix list
+" Let ale populate the quickfix list
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
 
@@ -136,7 +160,34 @@ autocmd filetype rst nnoremap <leader>h2 :RivTitle2<CR>
 autocmd filetype rst nnoremap <leader>h3 :RivTitle3<CR>
 autocmd filetype rst nnoremap <leader>h4 :RivTitle4<CR>
 
-" completor.vim complition with tab
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+" vim-lsp
+let g:lsp_diagnostics_enabled = 0
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+    " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+    let g:lsp_format_sync_timeout = 1000
+    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+
+    " refer to doc to add more commands
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
