@@ -118,22 +118,6 @@ let g:lightline = {
     \ },
 \ }
 
-" rst support in tagbar
-let g:tagbar_type_rst = {
-    \ 'ctagstype': 'rst',
-    \ 'ctagsbin' : '$HOME/bin/rst2ctags.py',
-    \ 'ctagsargs' : '-f - --sort=yes',
-    \ 'kinds' : [
-        \ 's:sections',
-        \ 'i:images'
-    \ ],
-    \ 'sro' : '|',
-    \ 'kind2scope' : {
-        \ 's' : 'section',
-    \ },
-    \ 'sort': 0,
-\ }
-
 "UltiSnips
 let g:ultisnips_python_style="numpy"
 
