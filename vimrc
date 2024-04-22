@@ -40,6 +40,7 @@ set showmatch
 set hlsearch
 
 set number relativenumber
+set complete+=kspell
 
 " Maps
 let mapleader = "ö"
@@ -87,7 +88,7 @@ xmap * }
 
 " Autocmds
 " autocmd FocusLost * :wa
-autocmd Filetype gitcommit setlocal spell textwidth=72
+autocmd Filetype gitcommit setlocal spell textwidth=72 spell spelllang=en
 autocmd BufRead,BufNewFile *.yml set filetype=yaml.ansible
 " autocmd FileType python setlocal formatprg=autopep8\ -\ 2>\ /dev/null
 autocmd FileType python setlocal formatprg=black\ -l79\ -\ 2>\ /dev/null
@@ -155,49 +156,3 @@ autocmd filetype rst nnoremap <leader>h4 :RivTitle4<CR>
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
-
-" tagbar file support
-let g:tagbar_type_markdown = {
-  \ 'ctagstype'	: 'markdown',
-  \ 'kinds'		: [
-    \ 'c:chapter:0:1',
-    \ 's:section:0:1',
-    \ 'S:subsection:0:1',
-    \ 't:subsubsection:0:1',
-    \ 'T:l4subsection:0:1',
-    \ 'u:l5subsection:0:1',
-  \ ],
-  \ 'sro'			: '""',
-  \ 'kind2scope'	: {
-    \ 'c' : 'chapter',
-    \ 's' : 'section',
-    \ 'S' : 'subsection',
-    \ 't' : 'subsubsection',
-    \ 'T' : 'l4subsection',
-  \ },
-  \ 'scope2kind'	: {
-    \ 'chapter' : 'c',
-    \ 'section' : 's',
-    \ 'subsection' : 'S',
-    \ 'subsubsection' : 't',
-    \ 'l4subsection' : 'T',
-  \ },
-\ }
-
-let g:tagbar_type_rst = {
-    \ 'ctagstype' : 'ReStructuredText',
-    \ 'kinds' : [
-    \     'c:chapter',
-    \     's:article',
-    \     'S:section',
-    \ ],
-    \ "sort" : 0
-\ }
-
-let g:tagbar_type_ansible = {
-	\ 'ctagstype' : 'ansible',
-	\ 'kinds' : [
-		\ 't:tasks'
-	\ ],
-	\ 'sort' : 0
-\ }
