@@ -149,10 +149,6 @@ let g:lightline = {
 " UltiSnips
 let g:ultisnips_python_style="numpy"
 
-" Let ale populate the quickfix list
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-
 " riv rst maps
 autocmd filetype rst nnoremap <leader>h0 :RivTitle0<CR>
 autocmd filetype rst nnoremap <leader>h1 :RivTitle1<CR>
@@ -162,6 +158,7 @@ autocmd filetype rst nnoremap <leader>h4 :RivTitle4<CR>
 
 " vim-lsp
 let g:lsp_diagnostics_enabled = 0
+let g:lsp_document_highlight_enabled = 1
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
