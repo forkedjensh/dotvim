@@ -97,7 +97,9 @@ set completeopt+=noselect
 let g:mucomplete#enable_auto_at_startup = 1
 set complete-=i
 set complete-=t
-set belloff=all
+set shortmess+=c
+set belloff+=ctrlg
+let g:mucomplete#completion_delay = 500
 
 let g:mucomplete#chains = {}
 let g:mucomplete#chains['default']   =  {
