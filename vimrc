@@ -11,6 +11,7 @@ set fileencoding=utf-8
 
 " Colorscheme
 colorscheme gruvbox
+let g:gruvbox_italic=1
 
 " File locations
 set undodir=~/.vim/undo//
