@@ -198,3 +198,6 @@ let g:tex_conceal = ''
 let g:vim_json_syntax_conceal = 0
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
+
+" let vim-sleuth do intendations as polyglot is missing editorconfig
+let g:polyglot_disabled = ['autoindent']
