@@ -113,7 +113,7 @@ let g:mucomplete#chains['sh']        =  ['ulti',  'file',  'dict',  'keyp']
 let g:mucomplete#chains['zsh']       =  ['ulti',  'file',  'dict',  'keyp']
 let g:mucomplete#chains['java']      =  ['ulti',  'keyn',  'c-n',   'omni']
 let g:mucomplete#chains['javascript']=  ['ulti',  'tags',  'omni',  'c-n']
-let g:mucomplete#chains['c']         =  ['ulti',  'list',  'omni',  'omni', 'c-n']
+let g:mucomplete#chains['c']         =  ['ulti',  'list',  'omni',   'c-n']
 let g:mucomplete#chains['go']        =  ['ulti',  'list',  'omni',  'c-n']
 let g:mucomplete#chains['troff']     =  ['ulti',  'omni',  'keyn',   'uspl',  'dict']
 let g:mucomplete#chains['nroff']     =  g:mucomplete#chains['troff']
@@ -162,9 +162,6 @@ autocmd filetype rst nnoremap <leader>h3 :RivTitle3<CR>
 autocmd filetype rst nnoremap <leader>h4 :RivTitle4<CR>
 
 " vim-lsp
-let g:lsp_diagnostics_enabled = 0
-let g:lsp_document_highlight_enabled = 1
-
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
