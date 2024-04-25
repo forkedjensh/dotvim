@@ -5,6 +5,10 @@ let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
 let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
 set termguicolors
 
+" Ensure unicode
+set encoding=utf-8
+set fileencoding=utf-8
+
 " Colorscheme
 colorscheme gruvbox
 
@@ -86,6 +90,7 @@ autocmd Filetype gitcommit setlocal spell textwidth=72 spell spelllang=en
 autocmd BufRead,BufNewFile *.yml set filetype=yaml.ansible
 " autocmd FileType python setlocal formatprg=autopep8\ -\ 2>\ /dev/null
 autocmd FileType python setlocal formatprg=black\ -l79\ -\ 2>\ /dev/null
+autocmd FileType qf setlocal colorcolumn=
 
 " mucomplete
 set completeopt+=menuone
