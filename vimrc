@@ -44,7 +44,6 @@ set showmatch
 set hlsearch
 
 set number relativenumber
-set complete+=kspell
 
 " Maps
 let mapleader = "ö"
