@@ -16,9 +16,6 @@
 [submodule "pack/plugins/start/loremipsum"]
 	path = pack/plugins/start/loremipsum
 	url = https://github.com/vim-scripts/loremipsum
-[submodule "pack/plugins/start/riv.vim"]
-	path = pack/plugins/start/riv.vim
-	url = https://github.com/Rykka/riv.vim
 [submodule "pack/plugins/start/ultisnips"]
 	path = pack/plugins/start/ultisnips
 	url = https://github.com/SirVer/ultisnips

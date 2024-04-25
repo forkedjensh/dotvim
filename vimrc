@@ -128,7 +128,7 @@ inoremap <silent> <expr> <plug>MyCR
 imap <cr> <plug>MyCR
 
 " Solve mucomplete ultisnips key mapping problem
-let g:UltiSnipsExpandTrigger="<nop>"
+let g:UltiSnipsExpandTrigger="<f5>"
 let g:UltiSnipsJumpForwardTrigger="<nop>"
 let g:UltiSnipsJumpBackwardTrigger="<nop>"
 
@@ -191,3 +191,9 @@ augroup lsp_install
     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+" disable some conceals
+let g:tex_conceal = ''
+let g:vim_json_syntax_conceal = 0
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
