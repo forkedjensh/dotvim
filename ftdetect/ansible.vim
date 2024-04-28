@@ -1,5 +1,6 @@
 fun! s:DetectShebang()
-    if getline(1) =~# '^#!.*/bin/env\s\+ansible-playbook\>'
+    let l:firstline = getline(1)
+    if l:firstline =~# '^#!.*/bin/env\s\+ansible-playbook\>'
         set ft=yaml.ansible
     endif
 endfun
