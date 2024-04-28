@@ -130,8 +130,8 @@ imap <cr> <plug>MyCR
 
 " Solve mucomplete ultisnips key mapping problem
 let g:UltiSnipsExpandTrigger="<f5>"
-let g:UltiSnipsJumpForwardTrigger="<nop>"
-let g:UltiSnipsJumpBackwardTrigger="<nop>"
+let g:UltiSnipsJumpForwardTrigger="<f5>"
+let g:UltiSnipsJumpBackwardTrigger="<f6>"
 
 " Lightline
 function MyFugitiveHead()
