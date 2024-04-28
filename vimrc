@@ -156,13 +156,6 @@ let g:lightline = {
 " UltiSnips
 let g:ultisnips_python_style="numpy"
 
-" riv rst maps
-autocmd filetype rst nnoremap <leader>h0 :RivTitle0<CR>
-autocmd filetype rst nnoremap <leader>h1 :RivTitle1<CR>
-autocmd filetype rst nnoremap <leader>h2 :RivTitle2<CR>
-autocmd filetype rst nnoremap <leader>h3 :RivTitle3<CR>
-autocmd filetype rst nnoremap <leader>h4 :RivTitle4<CR>
-
 " vim-lsp
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
