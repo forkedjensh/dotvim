@@ -85,10 +85,7 @@ xmap Ü {
 xmap * }
 
 " Autocmds
-" autocmd FocusLost * :wa
 autocmd Filetype gitcommit setlocal spell textwidth=72 spell spelllang=en
-autocmd BufRead,BufNewFile *.yml set filetype=yaml.ansible
-" autocmd FileType python setlocal formatprg=autopep8\ -\ 2>\ /dev/null
 autocmd FileType python setlocal formatprg=black\ -l79\ -\ 2>\ /dev/null
 autocmd FileType qf setlocal colorcolumn=
 
