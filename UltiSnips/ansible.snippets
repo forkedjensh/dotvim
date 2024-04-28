@@ -1,0 +1,1080 @@
+# NOTE: This file is auto-generated. Modifications may be overwritten.
+priority -50
+snippet add_host "Add a host (and alternatively a group) to the ansible-playbook in-memory inventory" b
+ansible.builtin.add_host:
+	name: ${1:# The hostname/ip of the host to add to the inventory, can include a colon and a port number.}
+
+	groups: ${3:# The groups to add the hostname to.}
+endsnippet
+snippet apt "Manages apt-packages" b
+ansible.builtin.apt:
+	allow_change_held_packages: ${1:false}
+	allow_downgrade: ${2:false}
+	allow_unauthenticated: ${3:false}
+	autoclean: ${4:false}
+	autoremove: ${5:false}
+	cache_valid_time: ${6:0}
+	clean: ${7:false}
+	deb: ${8:# Path to a .deb package on the remote machine.If :// in the path, ansible will attempt to download deb before installing. (Version added 2.1)Requires the C(xz-utils) package to extract the control file of the deb package to install.}
+	default_release: ${9:# Corresponds to the C(-t) option for I(apt) and sets pin priorities}
+	dpkg_options: ${10:force-confdef,force-confold}
+	fail_on_autoremove: ${11:false}
+	force: ${12:false}
+	force_apt_get: ${13:false}
+	install_recommends: ${14:# Corresponds to the C(--no-install-recommends) option for I(apt). V(true) installs recommended packages.  V(false) does not install recommended packages. By default, Ansible will use the same defaults as the operating system. Suggested packages are never installed.}
+	lock_timeout: ${15:60}
+	name: ${16:# A list of package names, like V(foo), or package specifier with version, like V(foo=1.0) or V(foo>=1.0). Name wildcards (fnmatch) like V(apt*) and version wildcards like V(foo=1.0*) are also supported.}
+	only_upgrade: ${17:false}
+	policy_rc_d: ${18:# Force the exit code of /usr/sbin/policy-rc.d.For example, if I(policy_rc_d=101) the installed package will not trigger a service start.If /usr/sbin/policy-rc.d already exists, it is backed up and restored after the package installation.If V(null), the /usr/sbin/policy-rc.d isn't created/changed.}
+	purge: ${19:false}
+	state: ${20:absent|build-dep|latest|#present|fixed}
+	update_cache: ${21:# Run the equivalent of C(apt-get update) before the operation. Can be run as part of the package installation or as a separate step.Default is not to update the cache.}
+	update_cache_retries: ${22:5}
+	update_cache_retry_max_delay: ${23:12}
+	upgrade: ${24:dist|full|#no|safe|yes}
+endsnippet
+snippet apt_key "Add or remove an apt key" b
+ansible.builtin.apt_key:
+	data: ${1:# The keyfile contents to add to the keyring.}
+	file: ${2:# The path to a keyfile on the remote server to add to the keyring.}
+	id: ${3:# The identifier of the key.Including this allows check mode to correctly report the changed state.If specifying a subkey's id be aware that apt-key does not understand how to remove keys via a subkey id.  Specify the primary key's id instead.This parameter is required when O(state) is set to V(absent).}
+	keyring: ${4:# The full path to specific keyring file in C(/etc/apt/trusted.gpg.d/).}
+	keyserver: ${5:# The keyserver to retrieve key from.}
+	state: ${6:absent|#present}
+	url: ${7:# The URL to retrieve key from.}
+	validate_certs: ${8:true}
+endsnippet
+snippet apt_repository "Add and remove APT repositories" b
+ansible.builtin.apt_repository:
+	repo: ${1:# A source string for the repository.}
+
+	codename: ${3:# Override the distribution codename to use for PPA repositories. Should usually only be set when working with a PPA on a non-Ubuntu target (for example, Debian or Mint).}
+	filename: ${4:# Sets the name of the source list file in sources.list.d. Defaults to a file name based on the repository source url. The .list extension will be automatically added.}
+	install_python_apt: ${5:true}
+	mode: ${6:# The octal mode for newly created files in sources.list.d.Default is what system uses (probably 0644).}
+	state: ${7:absent|#present}
+	update_cache: ${8:true}
+	update_cache_retries: ${9:5}
+	update_cache_retry_max_delay: ${10:12}
+	validate_certs: ${11:true}
+endsnippet
+snippet assemble "Assemble configuration files from fragments" b
+ansible.builtin.assemble:
+	dest: ${1:# A file to create using the concatenation of all of the source files.}
+	src: ${2:# An already existing directory full of source files.}
+
+	attributes: ${4:# The attributes the resulting filesystem object should have.To get supported flags look at the man page for I(chattr) on the target system.This string should contain the attributes in the same order as the one displayed by I(lsattr).The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string.}
+	backup: ${5:false}
+	decrypt: ${6:true}
+	delimiter: ${7:# A delimiter to separate the file contents.}
+	group: ${8:# Name of the group that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.}
+	ignore_hidden: ${9:false}
+	mode: ${10:# The permissions the resulting filesystem object should have.For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.Giving Ansible a number }
+	owner: ${11:# Name of the user that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion.}
+	regexp: ${12:# Assemble files only if the given regular expression matches the filename.If not set, all files are assembled.Every V(\\\\) (backslash) must be escaped as V(\\\\\\\\) to comply to YAML syntax.Uses L(Python regular expressions,https://docs.python.org/3/library/re.html).}
+	remote_src: ${13:true}
+	selevel: ${14:# The level part of the SELinux filesystem object context.This is the MLS/MCS attribute, sometimes known as the C(range).When set to V(_default), it will use the C(level) portion of the policy if available.}
+	serole: ${15:# The role part of the SELinux filesystem object context.When set to V(_default), it will use the C(role) portion of the policy if available.}
+	setype: ${16:# The type part of the SELinux filesystem object context.When set to V(_default), it will use the C(type) portion of the policy if available.}
+	seuser: ${17:# The user part of the SELinux filesystem object context.By default it uses the V(system) policy, where applicable.When set to V(_default), it will use the C(user) portion of the policy if available.}
+	unsafe_writes: ${18:false}
+	validate: ${19:# The validation command to run before copying into place.The path to the file to validate is passed in via '%s' which must be present as in the sshd example below.The command is passed securely so shell features like expansion and pipes won't work.}
+endsnippet
+snippet assert "Asserts given expressions are true" b
+ansible.builtin.assert:
+	that: ${1:# A list of string expressions of the same form that can be passed to the 'when' statement.}
+
+	fail_msg: ${3:# The customized message used for a failing assertion.This argument was called 'msg' before Ansible 2.7, now it is renamed to 'fail_msg' with alias 'msg'.}
+	quiet: ${4:false}
+	success_msg: ${5:# The customized message used for a successful assertion.}
+endsnippet
+snippet async_status "Obtain status of asynchronous task" b
+ansible.builtin.async_status:
+	jid: ${1:# Job or task identifier}
+
+	mode: ${3:cleanup|#status}
+endsnippet
+snippet blockinfile "Insert/update/remove a text block surrounded by marker lines" b
+ansible.builtin.blockinfile:
+	path: ${1:# The file to modify.Before Ansible 2.3 this option was only usable as O(dest), O(destfile) and O(name).}
+
+	append_newline: ${3:false}
+	attributes: ${4:# The attributes the resulting filesystem object should have.To get supported flags look at the man page for I(chattr) on the target system.This string should contain the attributes in the same order as the one displayed by I(lsattr).The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string.}
+	backup: ${5:false}
+	block: ${6:""}
+	create: ${7:false}
+	group: ${8:# Name of the group that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.}
+	insertafter: ${9:#EOF|*regex*}
+	insertbefore: ${10:BOF|*regex*}
+	marker: ${11:# \{mark\} ANSIBLE MANAGED BLOCK}
+	marker_begin: ${12:BEGIN}
+	marker_end: ${13:END}
+	mode: ${14:# The permissions the resulting filesystem object should have.For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.Giving Ansible a number }
+	owner: ${15:# Name of the user that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion.}
+	prepend_newline: ${16:false}
+	selevel: ${17:# The level part of the SELinux filesystem object context.This is the MLS/MCS attribute, sometimes known as the C(range).When set to V(_default), it will use the C(level) portion of the policy if available.}
+	serole: ${18:# The role part of the SELinux filesystem object context.When set to V(_default), it will use the C(role) portion of the policy if available.}
+	setype: ${19:# The type part of the SELinux filesystem object context.When set to V(_default), it will use the C(type) portion of the policy if available.}
+	seuser: ${20:# The user part of the SELinux filesystem object context.By default it uses the V(system) policy, where applicable.When set to V(_default), it will use the C(user) portion of the policy if available.}
+	state: ${21:absent|#present}
+	unsafe_writes: ${22:false}
+	validate: ${23:# The validation command to run before copying the updated file into the final destination.A temporary file path is used to validate, passed in through '%s' which must be present as in the examples below.Also, the command is passed securely so shell features such as expansion and pipes will not work.For an example on how to handle more complex validation than what this option provides, see R(handling complex validation,complex_configuration_validation).}
+endsnippet
+snippet command "Execute commands on targets" b
+ansible.builtin.command:
+	argv: ${1:# Passes the command as a list rather than a string.Use O(argv) to avoid quoting values that would otherwise be interpreted incorrectly (for example 'user name').Only the string (free form) or the list (argv) form can be provided, not both.  One or the other must be provided.}
+	chdir: ${2:# Change into this directory before running the command.}
+	cmd: ${3:# The command to run.}
+	creates: ${4:# A filename or (since 2.0) glob pattern. If a matching file already exists, this step B(will not) be run.This is checked before O(removes) is checked.}
+	expand_argument_vars: ${5:true}
+	${6:free_form: # The command module takes a free form string as a command to run.There is no actual parameter named 'free form'.}
+	removes: ${7:# A filename or (since 2.0) glob pattern. If a matching file exists, this step B(will) be run.This is checked after O(creates) is checked.}
+	stdin: ${8:# Set the stdin of the command directly to the specified value.}
+	stdin_add_newline: ${9:true}
+	strip_empty_ends: ${10:true}
+endsnippet
+snippet copy "Copy files to remote locations" b
+ansible.builtin.copy:
+	dest: ${1:# Remote absolute path where the file should be copied to.If O(src) is a directory, this must be a directory too.If O(dest) is a non-existent path and if either O(dest) ends with '/' or O(src) is a directory, O(dest) is created.If O(dest) is a relative path, the starting directory is determined by the remote host.If O(src) and O(dest) are files, the parent directory of O(dest) is not created and the task fails if it does not already exist.}
+
+	attributes: ${3:# The attributes the resulting filesystem object should have.To get supported flags look at the man page for I(chattr) on the target system.This string should contain the attributes in the same order as the one displayed by I(lsattr).The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string.}
+	backup: ${4:false}
+	checksum: ${5:# SHA1 checksum of the file being transferred.Used to validate that the copy of the file was successful.If this is not provided, ansible will use the local calculated checksum of the src file.}
+	content: ${6:# When used instead of O(src), sets the contents of a file directly to the specified value.Works only when O(dest) is a file. Creates the file if it does not exist.For advanced formatting or if O(content) contains a variable, use the M(ansible.builtin.template) module.}
+	decrypt: ${7:true}
+	directory_mode: ${8:# Set the access permissions of newly created directories to the given mode. Permissions on existing directories do not change.See O(mode) for the syntax of accepted values.The target system's defaults determine permissions when this parameter is not set.}
+	follow: ${9:false}
+	force: ${10:true}
+	group: ${11:# Name of the group that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.}
+	local_follow: ${12:true}
+	mode: ${13:# The permissions of the destination file or directory.For those used to C(/usr/bin/chmod) remember that modes are actually octal numbers. You must either add a leading zero so that Ansible's YAML parser knows it is an octal number (like V(0644) or V(01777)) or quote it (like V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Giving Ansible a number without following one of these rules will end up with a decimal number which will have unexpected results.}
+	owner: ${14:# Name of the user that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion.}
+	remote_src: ${15:false}
+	selevel: ${16:# The level part of the SELinux filesystem object context.This is the MLS/MCS attribute, sometimes known as the C(range).When set to V(_default), it will use the C(level) portion of the policy if available.}
+	serole: ${17:# The role part of the SELinux filesystem object context.When set to V(_default), it will use the C(role) portion of the policy if available.}
+	setype: ${18:# The type part of the SELinux filesystem object context.When set to V(_default), it will use the C(type) portion of the policy if available.}
+	seuser: ${19:# The user part of the SELinux filesystem object context.By default it uses the V(system) policy, where applicable.When set to V(_default), it will use the C(user) portion of the policy if available.}
+	src: ${20:# Local path to a file to copy to the remote server.This can be absolute or relative.If path is a directory, it is copied recursively. In this case, if path ends with '/', only inside contents of that directory are copied to destination. Otherwise, if it does not end with '/', the directory itself with all contents is copied. This behavior is similar to the C(rsync) command line tool.}
+	unsafe_writes: ${21:false}
+	validate: ${22:# The validation command to run before copying the updated file into the final destination.A temporary file path is used to validate, passed in through '%s' which must be present as in the examples below.Also, the command is passed securely so shell features such as expansion and pipes will not work.For an example on how to handle more complex validation than what this option provides, see R(handling complex validation,complex_configuration_validation).}
+endsnippet
+snippet cron "Manage cron.d and crontab entries" b
+ansible.builtin.cron:
+	name: ${1:# Description of a crontab entry or, if env is set, the name of environment variable.This parameter is always required as of ansible-core 2.12.}
+
+	backup: ${3:false}
+	cron_file: ${4:# If specified, uses this file instead of an individual user's crontab. The assumption is that this file is exclusively managed by the module, do not use if the file contains multiple entries, NEVER use for /etc/crontab.If this is a relative path, it is interpreted with respect to C(/etc/cron.d).Many linux distros expect (and some require) the filename portion to consist solely of upper- and lower-case letters, digits, underscores, and hyphens.Using this parameter requires you to specify the O(user) as well, }
+	day: ${5:*}
+	disabled: ${6:false}
+	env: ${7:false}
+	hour: ${8:*}
+	insertafter: ${9:# Used with O(state=present) and O(env).If specified, the environment variable will be inserted after the declaration of specified environment variable.}
+	insertbefore: ${10:# Used with O(state=present) and O(env).If specified, the environment variable will be inserted before the declaration of specified environment variable.}
+	job: ${11:# The command to execute or, if env is set, the value of environment variable.The command should not contain line breaks.Required if O(state=present).}
+	minute: ${12:*}
+	month: ${13:*}
+	special_time: ${14:annually|daily|hourly|monthly|reboot|weekly|yearly}
+	state: ${15:absent|#present}
+	user: ${16:# The specific user whose crontab should be modified.When unset, this parameter defaults to the current user.}
+	weekday: ${17:*}
+endsnippet
+snippet deb822_repository "Add and remove deb822 formatted repositories" b
+ansible.builtin.deb822_repository:
+	name: ${1:# Name of the repo. Specifically used for C(X-Repolib-Name) and in naming the repository and signing key files.}
+
+	allow_downgrade_to_insecure: ${3:# Allow downgrading a package that was previously authenticated but is no longer authenticated}
+	allow_insecure: ${4:# Allow insecure repositories}
+	allow_weak: ${5:# Allow repositories signed with a key using a weak digest algorithm}
+	architectures: ${6:# Architectures to search within repository}
+	by_hash: ${7:# Controls if APT should try to acquire indexes via a URI constructed from a hashsum of the expected file instead of using the well-known stable filename of the index.}
+	check_date: ${8:# Controls if APT should consider the machine's time correct and hence perform time related checks, such as verifying that a Release file is not from the future.}
+	check_valid_until: ${9:# Controls if APT should try to detect replay attacks.}
+	components: ${10:# Components specify different sections of one distribution version present in a Suite.}
+	date_max_future: ${11:# Controls how far from the future a repository may be.}
+	enabled: ${12:# Tells APT whether the source is enabled or not.}
+	inrelease_path: ${13:# Determines the path to the InRelease file, relative to the normal position of an InRelease file.}
+	languages: ${14:# Defines which languages information such as translated package descriptions should be downloaded.}
+	mode: ${15:0644}
+	pdiffs: ${16:# Controls if APT should try to use PDiffs to update old indexes instead of downloading the new indexes entirely}
+	signed_by: ${17:# Either a URL to a GPG key, absolute path to a keyring file, one or more fingerprints of keys either in the C(trusted.gpg) keyring or in the keyrings in the C(trusted.gpg.d/) directory, or an ASCII armored GPG public key block.}
+	state: ${18:absent|#present}
+	suites: ${19:# Suite can specify an exact path in relation to the URI(s) provided, in which case the Components: must be omitted and suite must end with a slash (C(/)). Alternatively, it may take the form of a distribution version (e.g. a version codename like disco or artful). If the suite does not specify a path, at least one component must be present.}
+	targets: ${20:# Defines which download targets apt will try to acquire from this source.}
+	trusted: ${21:# Decides if a source is considered trusted or if warnings should be raised before e.g. packages are installed from this source.}
+	types: ${22:['#deb', 'deb-src']}
+	uris: ${23:# The URIs must specify the base of the Debian distribution archive, from which APT finds the information it needs.}
+endsnippet
+snippet debconf "Configure a .deb package" b
+ansible.builtin.debconf:
+	name: ${1:# Name of package to configure.}
+
+	question: ${3:# A debconf configuration setting.}
+	unseen: ${4:false}
+	value: ${5:# Value to set the configuration to.}
+	vtype: ${6:boolean|error|multiselect|note|password|seen|select|string|text|title}
+endsnippet
+snippet debug "Print statements during execution" b
+ansible.builtin.debug:
+	msg: ${1:Hello world!}
+	var: ${2:# A variable name to debug.Mutually exclusive with the O(msg) option.Be aware that this option already runs in Jinja2 context and has an implicit C(\{\{ \}\}) wrapping, so you should not be using Jinja2 delimiters unless you are looking for double interpolation.}
+	verbosity: ${3:0}
+endsnippet
+snippet dnf "Manages packages with the I(dnf) package manager" b
+ansible.builtin.dnf:
+	allow_downgrade: ${1:false}
+	allowerasing: ${2:false}
+	autoremove: ${3:false}
+	bugfix: ${4:false}
+	cacheonly: ${5:false}
+	conf_file: ${6:# The remote dnf configuration file to use for the transaction.}
+	disable_excludes: ${7:# Disable the excludes defined in DNF config files.If set to V(all), disables all excludes.If set to V(main), disable excludes defined in [main] in dnf.conf.If set to V(repoid), disable excludes defined for given repo id.}
+	disable_gpg_check: ${8:false}
+	disable_plugin: ${9:[]}
+	disablerepo: ${10:[]}
+	download_dir: ${11:# Specifies an alternate directory to store packages.Has an effect only if O(download_only) is specified.}
+	download_only: ${12:false}
+	enable_plugin: ${13:[]}
+	enablerepo: ${14:[]}
+	exclude: ${15:[]}
+	install_repoquery: ${16:true}
+	install_weak_deps: ${17:true}
+	installroot: ${18:/}
+	list: ${19:# Various (non-idempotent) commands for usage with C(/usr/bin/ansible) and I(not) playbooks. Use M(ansible.builtin.package_facts) instead of the O(list) argument as a best practice.}
+	lock_timeout: ${20:30}
+	name: ${21:[]}
+	nobest: ${22:false}
+	releasever: ${23:# Specifies an alternative release from which all packages will be installed.}
+	security: ${24:false}
+	skip_broken: ${25:false}
+	sslverify: ${26:true}
+	state: ${27:absent|present|installed|removed|latest}
+	update_cache: ${28:false}
+	update_only: ${29:false}
+	use_backend: ${30:#auto|dnf4|dnf5}
+	validate_certs: ${31:true}
+endsnippet
+snippet dnf5 "Manages packages with the I(dnf5) package manager" b
+ansible.builtin.dnf5:
+	allow_downgrade: ${1:false}
+	allowerasing: ${2:false}
+	autoremove: ${3:false}
+	bugfix: ${4:false}
+	cacheonly: ${5:false}
+	conf_file: ${6:# The remote dnf configuration file to use for the transaction.}
+	disable_excludes: ${7:# Disable the excludes defined in DNF config files.If set to V(all), disables all excludes.If set to V(main), disable excludes defined in [main] in dnf.conf.If set to V(repoid), disable excludes defined for given repo id.}
+	disable_gpg_check: ${8:false}
+	disable_plugin: ${9:[]}
+	disablerepo: ${10:[]}
+	download_dir: ${11:# Specifies an alternate directory to store packages.Has an effect only if O(download_only) is specified.}
+	download_only: ${12:false}
+	enable_plugin: ${13:[]}
+	enablerepo: ${14:[]}
+	exclude: ${15:[]}
+	install_repoquery: ${16:true}
+	install_weak_deps: ${17:true}
+	installroot: ${18:/}
+	list: ${19:# Various (non-idempotent) commands for usage with C(/usr/bin/ansible) and I(not) playbooks. Use M(ansible.builtin.package_facts) instead of the O(list) argument as a best practice.}
+	lock_timeout: ${20:30}
+	name: ${21:[]}
+	nobest: ${22:false}
+	releasever: ${23:# Specifies an alternative release from which all packages will be installed.}
+	security: ${24:false}
+	skip_broken: ${25:false}
+	sslverify: ${26:true}
+	state: ${27:absent|present|installed|removed|latest}
+	update_cache: ${28:false}
+	update_only: ${29:false}
+	validate_certs: ${30:true}
+endsnippet
+snippet dpkg_selections "Dpkg package selection selections" b
+ansible.builtin.dpkg_selections:
+	name: ${1:# Name of the package.}
+	selection: ${2:install|hold|deinstall|purge}
+endsnippet
+snippet expect "Executes a command and responds to prompts" b
+ansible.builtin.expect:
+	command: ${1:# The command module takes command to run.}
+	responses: ${2:# Mapping of expected string/regex and string to respond with. If the response is a list, successive matches return successive responses. List functionality is new in 2.1.}
+
+	chdir: ${4:# Change into this directory before running the command.}
+	creates: ${5:# A filename, when it already exists, this step will B(not) be run.}
+	echo: ${6:false}
+	removes: ${7:# A filename, when it does not exist, this step will B(not) be run.}
+	timeout: ${8:30}
+endsnippet
+snippet fail "Fail with custom message" b
+ansible.builtin.fail:
+	msg: ${1:Failed as requested from task}
+endsnippet
+snippet fetch "Fetch files from remote nodes" b
+ansible.builtin.fetch:
+	dest: ${1:# A directory to save the file into.For example, if the O(dest) directory is C(/backup) a O(src) file named C(/etc/profile) on host C(host.example.com), would be saved into C(/backup/host.example.com/etc/profile). The host name is based on the inventory name.}
+	src: ${2:# The file on the remote system to fetch.This I(must) be a file, not a directory.Recursive fetching may be supported in a later release.}
+
+	fail_on_missing: ${4:true}
+	flat: ${5:false}
+	validate_checksum: ${6:true}
+endsnippet
+snippet file "Manage files and file properties" b
+ansible.builtin.file:
+	path: ${1:# Path to the file being managed.}
+
+	access_time: ${3:# This parameter indicates the time the file's access time should be set to.Should be V(preserve) when no modification is required, C(YYYYMMDDHHMM.SS) when using default time format, or V(now).Default is V(None) meaning that V(preserve) is the default for O(state=[file,directory,link,hard]) and V(now) is default for O(state=touch).}
+	access_time_format: ${4:%Y%m%d%H%M.%S}
+	attributes: ${5:# The attributes the resulting filesystem object should have.To get supported flags look at the man page for I(chattr) on the target system.This string should contain the attributes in the same order as the one displayed by I(lsattr).The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string.}
+	follow: ${6:true}
+	force: ${7:false}
+	group: ${8:# Name of the group that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.}
+	mode: ${9:# The permissions the resulting filesystem object should have.For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.Giving Ansible a number }
+	modification_time: ${10:# This parameter indicates the time the file's modification time should be set to.Should be V(preserve) when no modification is required, C(YYYYMMDDHHMM.SS) when using default time format, or V(now).Default is None meaning that V(preserve) is the default for O(state=[file,directory,link,hard]) and V(now) is default for O(state=touch).}
+	modification_time_format: ${11:%Y%m%d%H%M.%S}
+	owner: ${12:# Name of the user that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion.}
+	recurse: ${13:false}
+	selevel: ${14:# The level part of the SELinux filesystem object context.This is the MLS/MCS attribute, sometimes known as the C(range).When set to V(_default), it will use the C(level) portion of the policy if available.}
+	serole: ${15:# The role part of the SELinux filesystem object context.When set to V(_default), it will use the C(role) portion of the policy if available.}
+	setype: ${16:# The type part of the SELinux filesystem object context.When set to V(_default), it will use the C(type) portion of the policy if available.}
+	seuser: ${17:# The user part of the SELinux filesystem object context.By default it uses the V(system) policy, where applicable.When set to V(_default), it will use the C(user) portion of the policy if available.}
+	src: ${18:# Path of the file to link to.This applies only to O(state=link) and O(state=hard).For O(state=link), this will also accept a non-existing path.Relative paths are relative to the file being created (O(path)) which is how the Unix command C(ln -s SRC DEST) treats relative paths.}
+	state: ${19:absent|directory|file|hard|link|touch}
+	unsafe_writes: ${20:false}
+endsnippet
+snippet find "Return a list of files based on specific criteria" b
+ansible.builtin.find:
+	paths: ${1:# List of paths of directories to search. All paths must be fully qualified.}
+
+	age: ${3:# Select files whose age is equal to or greater than the specified time.Use a negative age to find files equal to or less than the specified time.You can choose seconds, minutes, hours, days, or weeks by specifying the first letter of any of those words (e.g., '1w').}
+	age_stamp: ${4:atime|ctime|#mtime}
+	contains: ${5:# A regular expression or pattern which should be matched against the file content.If O(read_whole_file) is V(false) it matches against the beginning of the line (uses V(re.match(\\))). If O(read_whole_file) is V(true), it searches anywhere for that pattern (uses V(re.search(\\))).Works only when O(file_type) is V(file).}
+	depth: ${6:# Set the maximum number of levels to descend into.Setting recurse to V(false) will override this value, which is effectively depth 1.Default is unlimited depth.}
+	exact_mode: ${7:true}
+	excludes: ${8:# One or more (shell or regex) patterns, which type is controlled by O(use_regex) option.Items whose basenames match an O(excludes) pattern are culled from O(patterns) matches. Multiple patterns can be specified using a list.}
+	file_type: ${9:any|directory|#file|link}
+	follow: ${10:false}
+	get_checksum: ${11:false}
+	hidden: ${12:false}
+	mode: ${13:# Choose objects matching a specified permission. This value is restricted to modes that can be applied using the python C(os.chmod) function.The mode can be provided as an octal such as V('0644') or as symbolic such as V(u=rw,g=r,o=r)}
+	patterns: ${14:[]}
+	read_whole_file: ${15:false}
+	recurse: ${16:false}
+	size: ${17:# Select files whose size is equal to or greater than the specified size.Use a negative size to find files equal to or less than the specified size.Unqualified values are in bytes but b, k, m, g, and t can be appended to specify bytes, kilobytes, megabytes, gigabytes, and terabytes, respectively.Size is not evaluated for directories.}
+	use_regex: ${18:false}
+endsnippet
+snippet gather_facts "Gathers facts about remote hosts" b
+ansible.builtin.gather_facts:
+	parallel: ${1:# A toggle that controls if the fact modules are executed in parallel or serially and in order. This can guarantee the merge order of module facts at the expense of performance.By default it will be true if more than one fact module is used.For low cost/delay fact modules parallelism overhead might end up meaning the whole process takes longer. Test your specific case to see if it is a speed improvement or not.}
+endsnippet
+snippet get_url "Downloads files from HTTP, HTTPS, or FTP to node" b
+ansible.builtin.get_url:
+	dest: ${1:# Absolute path of where to download the file to.If O(dest) is a directory, either the server provided filename or, if none provided, the base name of the URL on the remote server will be used. If a directory, O(force) has no effect.If O(dest) is a directory, the file will always be downloaded (regardless of the O(force) and O(checksum) option), but replaced only if the contents changed.}
+	url: ${2:# HTTP, HTTPS, or FTP URL in the form (http|https|ftp)://[user[:pass]]@host.domain[:port]/path}
+
+	attributes: ${4:# The attributes the resulting filesystem object should have.To get supported flags look at the man page for I(chattr) on the target system.This string should contain the attributes in the same order as the one displayed by I(lsattr).The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string.}
+	backup: ${5:false}
+	checksum: ${6:""}
+	ciphers: ${7:# SSL/TLS Ciphers to use for the requestWhen a list is provided, all ciphers are joined in order with V(:)See the L(OpenSSL Cipher List Format,https://www.openssl.org/docs/manmaster/man1/openssl-ciphers.html#CIPHER-LIST-FORMAT) for more details.The available ciphers is dependent on the Python and OpenSSL/LibreSSL versions}
+	client_cert: ${8:# PEM formatted certificate chain file to be used for SSL client authentication.This file can also include the key as well, and if the key is included, O(client_key) is not required.}
+	client_key: ${9:# PEM formatted file that contains your private key to be used for SSL client authentication.If O(client_cert) contains both the certificate and key, this option is not required.}
+	decompress: ${10:true}
+	force: ${11:false}
+	force_basic_auth: ${12:false}
+	group: ${13:# Name of the group that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.}
+	headers: ${14:# Add custom HTTP headers to a request in hash/dict format.The hash/dict format was added in Ansible 2.6.Previous versions used a C('key:value,key:value') string format.The C('key:value,key:value') string format is deprecated and has been removed in version 2.10.}
+	http_agent: ${15:ansible-httpget}
+	mode: ${16:# The permissions the resulting filesystem object should have.For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.Giving Ansible a number }
+	owner: ${17:# Name of the user that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion.}
+	selevel: ${18:# The level part of the SELinux filesystem object context.This is the MLS/MCS attribute, sometimes known as the C(range).When set to V(_default), it will use the C(level) portion of the policy if available.}
+	serole: ${19:# The role part of the SELinux filesystem object context.When set to V(_default), it will use the C(role) portion of the policy if available.}
+	setype: ${20:# The type part of the SELinux filesystem object context.When set to V(_default), it will use the C(type) portion of the policy if available.}
+	seuser: ${21:# The user part of the SELinux filesystem object context.By default it uses the V(system) policy, where applicable.When set to V(_default), it will use the C(user) portion of the policy if available.}
+	timeout: ${22:10}
+	tmp_dest: ${23:# Absolute path of where temporary file is downloaded to.When run on Ansible 2.5 or greater, path defaults to ansible's remote_tmp settingWhen run on Ansible prior to 2.5, it defaults to E(TMPDIR), E(TEMP) or E(TMP) env variables or a platform specific value.U(https://docs.python.org/3/library/tempfile.html#tempfile.tempdir)}
+	unredirected_headers: ${24:[]}
+	unsafe_writes: ${25:false}
+	url_password: ${26:# The password for use in HTTP basic authentication.If the O(url_username) parameter is not specified, the O(url_password) parameter will not be used.Since version 2.8 you can also use the O(password) alias for this option.}
+	url_username: ${27:# The username for use in HTTP basic authentication.This parameter can be used without O(url_password) for sites that allow empty passwords.Since version 2.8 you can also use the O(username) alias for this option.}
+	use_gssapi: ${28:false}
+	use_netrc: ${29:true}
+	use_proxy: ${30:true}
+	validate_certs: ${31:true}
+endsnippet
+snippet getent "A wrapper to the unix getent utility" b
+ansible.builtin.getent:
+	database: ${1:# The name of a getent database supported by the target system (passwd, group, hosts, etc).}
+
+	fail_key: ${3:true}
+	key: ${4:# Key from which to return values from the specified database, otherwise the full contents are returned.}
+	service: ${5:# Override all databases with the specified serviceThe underlying system must support the service flag which is not always available.}
+	split: ${6:# Character used to split the database values into lists/arrays such as V(:) or V(\\\\t), otherwise it will try to pick one depending on the database.}
+endsnippet
+snippet git "Deploy software (or files) from git checkouts" b
+ansible.builtin.git:
+	dest: ${1:# The path of where the repository should be checked out. This is equivalent to C(git clone [repo_url] [directory]). The repository named in O(repo) is not appended to this path and the destination directory must be empty. This parameter is required, unless O(clone) is set to V(false).}
+	repo: ${2:# git, SSH, or HTTP(S) protocol address of the git repository.}
+
+	accept_hostkey: ${4:false}
+	accept_newhostkey: ${5:false}
+	archive: ${6:# Specify archive file path with extension. If specified, creates an archive file of the specified format containing the tree structure for the source tree. Allowed archive formats ['zip', 'tar.gz', 'tar', 'tgz'].This will clone and perform git archive from local directory as not all git servers support git archive.}
+	archive_prefix: ${7:# Specify a prefix to add to each file path in archive. Requires O(archive) to be specified.}
+	bare: ${8:false}
+	clone: ${9:true}
+	depth: ${10:# Create a shallow clone with a history truncated to the specified number or revisions. The minimum possible value is V(1), otherwise ignored. Needs I(git>=1.9.1) to work correctly.}
+	executable: ${11:# Path to git executable to use. If not supplied, the normal mechanism for resolving binary paths will be used.}
+	force: ${12:false}
+	gpg_whitelist: ${13:[]}
+	key_file: ${14:# Specify an optional private key file path, on the target host, to use for the checkout.This ensures 'IdentitiesOnly=yes' is present in O(ssh_opts).}
+	recursive: ${15:true}
+	reference: ${16:# Reference repository (see 'git clone --reference ...').}
+	refspec: ${17:# Add an additional refspec to be fetched. If version is set to a I(SHA-1) not reachable from any branch or tag, this option may be necessary to specify the ref containing the I(SHA-1). Uses the same syntax as the C(git fetch) command. An example value could be 'refs/meta/config'.}
+	remote: ${18:origin}
+	separate_git_dir: ${19:# The path to place the cloned repository. If specified, Git repository can be separated from working tree.}
+	single_branch: ${20:false}
+	ssh_opts: ${21:# Options git will pass to ssh when used as protocol, it works via C(git)'s E(GIT_SSH)/E(GIT_SSH_COMMAND) environment variables.For older versions it appends E(GIT_SSH_OPTS) (specific to this module) to the variables above or via a wrapper script.Other options can add to this list, like O(key_file) and O(accept_hostkey).An example value could be '-o StrictHostKeyChecking=no' (although this particular option is better set by O(accept_hostkey)).The module ensures that 'BatchMode=yes' is always present to avoid }
+	track_submodules: ${22:false}
+	umask: ${23:# The umask to set before doing any checkouts, or any other repository maintenance.}
+	update: ${24:true}
+	verify_commit: ${25:false}
+	version: ${26:HEAD}
+endsnippet
+snippet group "Add or remove groups" b
+ansible.builtin.group:
+	name: ${1:# Name of the group to manage.}
+
+	force: ${3:false}
+	gid: ${4:# Optional I(GID) to set for the group.}
+	local: ${5:false}
+	non_unique: ${6:false}
+	state: ${7:absent|#present}
+	system: ${8:false}
+endsnippet
+snippet group_by "Create Ansible groups based on facts" b
+ansible.builtin.group_by:
+	key: ${1:# The variables whose values will be used as groups.}
+
+	parents: ${3:all}
+endsnippet
+snippet hostname "Manage hostname" b
+ansible.builtin.hostname:
+	name: ${1:# Name of the host.If the value is a fully qualified domain name that does not resolve from the given host, this will cause the module to hang for a few seconds while waiting for the name resolution attempt to timeout.}
+
+	use: ${3:alpine|debian|freebsd|generic|macos|macosx|darwin|openbsd|openrc|redhat|sles|solaris|systemd}
+endsnippet
+snippet import_playbook "Import a playbook" b
+ansible.builtin.import_playbook:
+	free-form: ${1:# The name of the imported playbook is specified directly without any other option.}
+endsnippet
+snippet import_role "Import a role into a play" b
+ansible.builtin.import_role:
+	name: ${1:# The name of the role to be executed.}
+
+	allow_duplicates: ${3:true}
+	defaults_from: ${4:main}
+	handlers_from: ${5:main}
+	rolespec_validate: ${6:true}
+	tasks_from: ${7:main}
+	vars_from: ${8:main}
+endsnippet
+snippet import_tasks "Import a task list" b
+ansible.builtin.import_tasks:
+	file: ${1:# Specifies the name of the file that lists tasks to add to the current playbook.}
+	free-form: ${2:# Specifies the name of the imported file directly without any other option C(- import_tasks: file.yml).
+Most keywords, including loops and conditionals, only apply to the imported tasks, not to this statement itself.If you need any of those to apply, use M(ansible.builtin.include_tasks) instead.}
+endsnippet
+snippet include_role "Load and execute a role" b
+ansible.builtin.include_role:
+	name: ${1:# The name of the role to be executed.}
+
+	allow_duplicates: ${3:true}
+	apply: ${4:# Accepts a hash of task keywords (for example C(tags), C(become)) that will be applied to all tasks within the included role.}
+	defaults_from: ${5:main}
+	handlers_from: ${6:main}
+	public: ${7:false}
+	rolespec_validate: ${8:true}
+	tasks_from: ${9:main}
+	vars_from: ${10:main}
+endsnippet
+snippet include_tasks "Dynamically include a task list" b
+ansible.builtin.include_tasks:
+	apply: ${1:# Accepts a hash of task keywords (for example C(tags), C(become)) that will be applied to the tasks within the include.}
+	file: ${2:# Specifies the name of the file that lists tasks to add to the current playbook.}
+	free-form: ${3:# Specifies the name of the imported file directly without any other option C(- include_tasks: file.yml).
+Is the equivalent of specifying an argument for the O(file) parameter.Most keywords, including loop, with_items, and conditionals, apply to this statement unlike M(ansible.builtin.import_tasks).The do-until loop is not supported.}
+endsnippet
+snippet include_vars "Load variables from files, dynamically within a task" b
+ansible.builtin.include_vars:
+	depth: ${1:0}
+	dir: ${2:# The directory name from which the variables should be loaded.If the path is relative and the task is inside a role, it will look inside the role's vars/ subdirectory.If the path is relative and not inside a role, it will be parsed relative to the playbook.}
+	extensions: ${3:['json', 'yaml', 'yml']}
+	file: ${4:# The file name from which variables should be loaded.If the path is relative, it will look for the file in vars/ subdirectory of a role or relative to playbook.}
+	files_matching: ${5:# Limit the files that are loaded within any directory to this regular expression.}
+	free-form: ${6:# This module allows you to specify the 'file' option directly without any other options.There is no 'free-form' option, this is just an indicator, see example below.}
+	hash_behaviour: ${7:replace|merge}
+	ignore_files: ${8:# List of file names to ignore.}
+	ignore_unknown_extensions: ${9:false}
+	name: ${10:# The name of a variable into which assign the included vars.If omitted (null) they will be made top level vars.}
+endsnippet
+snippet iptables "Modify iptables rules" b
+ansible.builtin.iptables:
+	action: ${1:#append|insert}
+	chain: ${2:# Specify the iptables chain to modify.This could be a user-defined chain or one of the standard iptables chains, like V(INPUT), V(FORWARD), V(OUTPUT), V(PREROUTING), V(POSTROUTING), V(SECMARK) or V(CONNSECMARK).}
+	chain_management: ${3:false}
+	comment: ${4:# This specifies a comment that will be added to the rule.}
+	ctstate: ${5:[]}
+	destination: ${6:# Destination specification.Address can be either a network name, a hostname, a network IP address (with /mask), or a plain IP address.Hostnames will be resolved once only, before the rule is submitted to the kernel. Please note that specifying any name to be resolved with a remote query such as DNS is a really bad idea.The mask can be either a network mask or a plain number, specifying the number of 1's at the left side of the network mask. Thus, a mask of 24 is equivalent to 255.255.255.0. A V(!) argument b}
+	destination_port: ${7:# Destination port or port range specification. This can either be a service name or a port number. An inclusive range can also be specified, using the format first:last. If the first port is omitted, '0' is assumed; if the last is omitted, '65535' is assumed. If the first port is greater than the second one they will be swapped. This is only valid if the rule also specifies one of the following protocols: tcp, udp, dccp or sctp.}
+	destination_ports: ${8:[]}
+	dst_range: ${9:# Specifies the destination IP range to match in the iprange module.}
+	flush: ${10:false}
+	fragment: ${11:# This means that the rule only refers to second and further fragments of fragmented packets.Since there is no way to tell the source or destination ports of such a packet (or ICMP type), such a packet will not match any rules which specify them.When the '!' argument precedes fragment argument, the rule will only match head fragments, or unfragmented packets.}
+	gateway: ${12:# This specifies the IP address of host to send the cloned packets.This option is only valid when O(jump) is set to V(TEE).}
+	gid_owner: ${13:# Specifies the GID or group to use in match by owner rule.}
+	goto: ${14:# This specifies that the processing should continue in a user specified chain.Unlike the jump argument return will not continue processing in this chain but instead in the chain that called us via jump.}
+	icmp_type: ${15:# This allows specification of the ICMP type, which can be a numeric ICMP type, type/code pair, or one of the ICMP type names shown by the command 'iptables -p icmp -h'}
+	in_interface: ${16:# Name of an interface via which a packet was received (only for packets entering the V(INPUT), V(FORWARD) and V(PREROUTING) chains).When the V(!) argument is used before the interface name, the sense is inverted.If the interface name ends in a V(+), then any interface which begins with this name will match.If this option is omitted, any interface name will match.}
+	ip_version: ${17:#ipv4|ipv6}
+	jump: ${18:# This specifies the target of the rule; i.e., what to do if the packet matches it.The target can be a user-defined chain (other than the one this rule is in), one of the special builtin targets which decide the fate of the packet immediately, or an extension (see EXTENSIONS below).If this option is omitted in a rule (and the goto parameter is not used), then matching the rule will have no effect on the packet's fate, but the counters on the rule will be incremented.}
+	limit: ${19:# Specifies the maximum average number of matches to allow per second.The number can specify units explicitly, using C(/second), C(/minute), C(/hour) or C(/day), or parts of them (so V(5/second) is the same as V(5/s)).}
+	limit_burst: ${20:# Specifies the maximum burst before the above limit kicks in.}
+	log_level: ${21:0|1|2|3|4|5|6|7|emerg|alert|crit|error|warning|notice|info|debug}
+	log_prefix: ${22:# Specifies a log text for the rule. Only make sense with a LOG jump.}
+	match: ${23:[]}
+	match_set: ${24:# Specifies a set name which can be defined by ipset.Must be used together with the match_set_flags parameter.When the V(!) argument is prepended then it inverts the rule.Uses the iptables set extension.}
+	match_set_flags: ${25:src|dst|src,dst|dst,src}
+	numeric: ${26:false}
+	out_interface: ${27:# Name of an interface via which a packet is going to be sent (for packets entering the V(FORWARD), V(OUTPUT) and V(POSTROUTING) chains).When the V(!) argument is used before the interface name, the sense is inverted.If the interface name ends in a V(+), then any interface which begins with this name will match.If this option is omitted, any interface name will match.}
+	policy: ${28:ACCEPT|DROP|QUEUE|RETURN}
+	protocol: ${29:# The protocol of the rule or of the packet to check.The specified protocol can be one of V(tcp), V(udp), V(udplite), V(icmp), V(ipv6-icmp) or V(icmpv6), V(esp), V(ah), V(sctp) or the special keyword V(all), or it can be a numeric value, representing one of these protocols or a different one.A protocol name from C(/etc/protocols) is also allowed.A V(!) argument before the protocol inverts the test.The number zero is equivalent to all.V(all) will match with all protocols and is taken as default when this optio}
+	reject_with: ${30:# Specifies the error packet type to return while rejecting. It implies 'jump: REJECT'.}
+	rule_num: ${31:# Insert the rule as the given rule number.This works only with O(action=insert).}
+	set_counters: ${32:# This enables the administrator to initialize the packet and byte counters of a rule (during V(INSERT), V(APPEND), V(REPLACE) operations).}
+	set_dscp_mark: ${33:# This allows specifying a DSCP mark to be added to packets. It takes either an integer or hex value.Mutually exclusive with O(set_dscp_mark_class).}
+	set_dscp_mark_class: ${34:# This allows specifying a predefined DiffServ class which will be translated to the corresponding DSCP mark.Mutually exclusive with O(set_dscp_mark).}
+	source: ${35:# Source specification.Address can be either a network name, a hostname, a network IP address (with /mask), or a plain IP address.Hostnames will be resolved once only, before the rule is submitted to the kernel. Please note that specifying any name to be resolved with a remote query such as DNS is a really bad idea.The mask can be either a network mask or a plain number, specifying the number of 1's at the left side of the network mask. Thus, a mask of 24 is equivalent to 255.255.255.0. A V(!) argument before}
+	source_port: ${36:# Source port or port range specification.This can either be a service name or a port number.An inclusive range can also be specified, using the format C(first:last).If the first port is omitted, V(0) is assumed; if the last is omitted, V(65535) is assumed.If the first port is greater than the second one they will be swapped.}
+	src_range: ${37:# Specifies the source IP range to match in the iprange module.}
+	state: ${38:absent|#present}
+	syn: ${39:#ignore|match|negate}
+	table: ${40:#filter|nat|mangle|raw|security}
+	tcp_flags: ${41:# TCP flags specification.O(tcp_flags) expects a dict with the two keys C(flags) and C(flags_set).}
+	to_destination: ${42:# This specifies a destination address to use with C(DNAT).Without this, the destination address is never altered.}
+	to_ports: ${43:# This specifies a destination port or range of ports to use, without this, the destination port is never altered.This is only valid if the rule also specifies one of the protocol V(tcp), V(udp), V(dccp) or V(sctp).}
+	to_source: ${44:# This specifies a source address to use with C(SNAT).Without this, the source address is never altered.}
+	uid_owner: ${45:# Specifies the UID or username to use in match by owner rule.From Ansible 2.6 when the C(!) argument is prepended then the it inverts the rule to apply instead to all users except that one specified.}
+	wait: ${46:# Wait N seconds for the xtables lock to prevent multiple instances of the program from running concurrently.}
+endsnippet
+snippet known_hosts "Add or remove a host from the C(known_hosts) file" b
+ansible.builtin.known_hosts:
+	name: ${1:# The host to add or remove (must match a host specified in key). It will be converted to lowercase so that ssh-keygen can find it.Must match with <hostname> or <ip> present in key attribute.For custom SSH port, O(name) needs to specify port as well. See example section.}
+
+	hash_host: ${3:false}
+	key: ${4:# The SSH public host key, as a string.Required if O(state=present), optional when O(state=absent), in which case all keys for the host are removed.The key must be in the right format for SSH (see sshd(8), section 'SSH_KNOWN_HOSTS FILE FORMAT').Specifically, the key should not match the format that is found in an SSH pubkey file, but should rather have the hostname prepended to a line that includes the pubkey, the same way that it would appear in the known_hosts file. The value prepended to the line must also}
+	path: ${5:~/.ssh/known_hosts}
+	state: ${6:absent|#present}
+endsnippet
+snippet lineinfile "Manage lines in text files" b
+ansible.builtin.lineinfile:
+	path: ${1:# The file to modify.Before Ansible 2.3 this option was only usable as O(dest), O(destfile) and O(name).}
+
+	attributes: ${3:# The attributes the resulting filesystem object should have.To get supported flags look at the man page for I(chattr) on the target system.This string should contain the attributes in the same order as the one displayed by I(lsattr).The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string.}
+	backrefs: ${4:false}
+	backup: ${5:false}
+	create: ${6:false}
+	firstmatch: ${7:false}
+	group: ${8:# Name of the group that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.}
+	insertafter: ${9:#EOF|*regex*}
+	insertbefore: ${10:BOF|*regex*}
+	line: ${11:# The line to insert/replace into the file.Required for O(state=present).If O(backrefs) is set, may contain backreferences that will get expanded with the O(regexp) capture groups if the regexp matches.}
+	mode: ${12:# The permissions the resulting filesystem object should have.For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.Giving Ansible a number }
+	others: ${13:# All arguments accepted by the M(ansible.builtin.file) module also work here.}
+	owner: ${14:# Name of the user that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion.}
+	regexp: ${15:# The regular expression to look for in every line of the file.For O(state=present), the pattern to replace if found. Only the last line found will be replaced.For O(state=absent), the pattern of the line(s) to remove.If the regular expression is not matched, the line will be added to the file in keeping with O(insertbefore) or O(insertafter) settings.When modifying a line the regexp should typically match both the initial state of the line as well as its state after replacement by O(line) to ensure idempoten}
+	search_string: ${16:# The literal string to look for in every line of the file. This does not have to match the entire line.For O(state=present), the line to replace if the string is found in the file. Only the last line found will be replaced.For O(state=absent), the line(s) to remove if the string is in the line.If the literal expression is not matched, the line will be added to the file in keeping with O(insertbefore) or O(insertafter) settings.Mutually exclusive with O(backrefs) and O(regexp).}
+	selevel: ${17:# The level part of the SELinux filesystem object context.This is the MLS/MCS attribute, sometimes known as the C(range).When set to V(_default), it will use the C(level) portion of the policy if available.}
+	serole: ${18:# The role part of the SELinux filesystem object context.When set to V(_default), it will use the C(role) portion of the policy if available.}
+	setype: ${19:# The type part of the SELinux filesystem object context.When set to V(_default), it will use the C(type) portion of the policy if available.}
+	seuser: ${20:# The user part of the SELinux filesystem object context.By default it uses the V(system) policy, where applicable.When set to V(_default), it will use the C(user) portion of the policy if available.}
+	state: ${21:absent|#present}
+	unsafe_writes: ${22:false}
+	validate: ${23:# The validation command to run before copying the updated file into the final destination.A temporary file path is used to validate, passed in through '%s' which must be present as in the examples below.Also, the command is passed securely so shell features such as expansion and pipes will not work.For an example on how to handle more complex validation than what this option provides, see R(handling complex validation,complex_configuration_validation).}
+endsnippet
+snippet meta "Execute Ansible 'actions'" b
+ansible.builtin.meta:
+	${1:free_form: clear_facts|clear_host_errors|end_host|end_play|flush_handlers|noop|refresh_inventory|reset_connection|end_batch}
+endsnippet
+snippet package "Generic OS package manager" b
+ansible.builtin.package:
+	name: ${1:# Package name, or package specifier with version.Syntax varies with package manager. For example V(name-1.0) or V(name=1.0).Package names also vary with package manager; this module will not 'translate' them per distro. For example V(libyaml-dev), V(libyaml-devel).}
+	state: ${2:# Whether to install (V(present)), or remove (V(absent)) a package.You can use other states like V(latest) ONLY if they are supported by the underlying package module(s) executed.}
+
+	use: ${4:auto}
+endsnippet
+snippet package_facts "Package information as facts" b
+ansible.builtin.package_facts:
+	manager: ${1:['#auto', 'rpm', 'apt', 'portage', 'pkg', 'pacman', 'apk', 'pkg_info']}
+	strategy: ${2:#first|all}
+endsnippet
+snippet pause "Pause playbook execution" b
+ansible.builtin.pause:
+	echo: ${1:true}
+	minutes: ${2:# A positive number of minutes to pause for.}
+	prompt: ${3:# Optional text to use for the prompt message.User input is only returned if O(seconds=None) and O(minutes=None), otherwise this is just a custom message before playbook execution is paused.}
+	seconds: ${4:# A positive number of seconds to pause for.}
+endsnippet
+snippet ping "Try to connect to host, verify a usable python and return V(pong) on success" b
+ansible.builtin.ping:
+	data: ${1:pong}
+endsnippet
+snippet pip "Manages Python library dependencies" b
+ansible.builtin.pip:
+	chdir: ${1:# cd into this directory before running the command}
+	editable: ${2:false}
+	executable: ${3:# The explicit executable or pathname for the pip executable, if different from the Ansible Python interpreter. For example V(pip3.3), if there are both Python 2.7 and 3.3 installations in the system and you want to run pip for the Python 3.3 installation.Mutually exclusive with O(virtualenv) (added in 2.1).Does not affect the Ansible Python interpreter.The setuptools package must be installed for both the Ansible Python interpreter and for the version of Python specified by this option.}
+	extra_args: ${4:# Extra arguments passed to pip.}
+	name: ${5:# The name of a Python library to install or the url(bzr+,hg+,git+,svn+) of the remote package.This can be a list (since 2.2) and contain version specifiers (since 2.7).}
+	requirements: ${6:# The path to a pip requirements file, which should be local to the remote system. File can be specified as a relative path if using the chdir option.}
+	state: ${7:absent|forcereinstall|latest|#present}
+	umask: ${8:# The system umask to apply before installing the pip package. This is useful, for example, when installing on systems that have a very restrictive umask by default (e.g., '0077') and you want to pip install packages which are to be used by all users. Note that this requires you to specify desired umask mode as an octal string, (e.g., '0022').}
+	version: ${9:# The version number to install of the Python library specified in the O(name) parameter.}
+	virtualenv: ${10:# An optional path to a I(virtualenv) directory to install into. It cannot be specified together with the 'executable' parameter (added in 2.1). If the virtualenv does not exist, it will be created before installing packages. The optional virtualenv_site_packages, virtualenv_command, and virtualenv_python options affect the creation of the virtualenv.}
+	virtualenv_command: ${11:virtualenv}
+	virtualenv_python: ${12:# The Python executable used for creating the virtual environment. For example V(python3.12), V(python2.7). When not specified, the Python version used to run the ansible module is used. This parameter should not be used when O(virtualenv_command) is using V(pyvenv) or the C(-m venv) module.}
+	virtualenv_site_packages: ${13:false}
+endsnippet
+snippet raw "Executes a low-down and dirty command" b
+ansible.builtin.raw:
+	${1:free_form: # The raw module takes a free form command to run.There is no parameter actually named 'free form'; see the examples!}
+
+	executable: ${3:# Change the shell used to execute the command. Should be an absolute path to the executable.When using privilege escalation (C(become)) a default shell will be assigned if one is not provided as privilege escalation requires a shell.}
+endsnippet
+snippet reboot "Reboot a machine" b
+ansible.builtin.reboot:
+	boot_time_command: ${1:cat /proc/sys/kernel/random/boot_id}
+	connect_timeout: ${2:# Maximum seconds to wait for a successful connection to the managed hosts before trying again.If unspecified, the default setting for the underlying connection plugin is used.}
+	msg: ${3:Reboot initiated by Ansible}
+	post_reboot_delay: ${4:0}
+	pre_reboot_delay: ${5:0}
+	reboot_command: ${6:[determined based on target OS]}
+	reboot_timeout: ${7:600}
+	search_paths: ${8:['/sbin', '/bin', '/usr/sbin', '/usr/bin', '/usr/local/sbin']}
+	test_command: ${9:whoami}
+endsnippet
+snippet replace "Replace all instances of a particular string in a file using a back-referenced regular expression" b
+ansible.builtin.replace:
+	path: ${1:# The file to modify.Before Ansible 2.3 this option was only usable as O(dest), O(destfile) and O(name).}
+	regexp: ${2:# The regular expression to look for in the contents of the file.Uses Python regular expressions; see U(https://docs.python.org/3/library/re.html).Uses MULTILINE mode, which means V(^) and V(\$) match the beginning and end of the file, as well as the beginning and end respectively of I(each line) of the file.Does not use DOTALL, which means the V(.) special character matches any character I(except newlines). A common mistake is to assume that a negated character set like V([^#]) will also not match newlines.In}
+
+	after: ${4:# If specified, only content after this match will be replaced/removed.Can be used in combination with O(before).Uses Python regular expressions; see U(https://docs.python.org/3/library/re.html).Uses DOTALL, which means the V(.) special character I(can match newlines).}
+	attributes: ${5:# The attributes the resulting filesystem object should have.To get supported flags look at the man page for I(chattr) on the target system.This string should contain the attributes in the same order as the one displayed by I(lsattr).The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string.}
+	backup: ${6:false}
+	before: ${7:# If specified, only content before this match will be replaced/removed.Can be used in combination with O(after).Uses Python regular expressions; see U(https://docs.python.org/3/library/re.html).Uses DOTALL, which means the V(.) special character I(can match newlines).}
+	encoding: ${8:utf-8}
+	group: ${9:# Name of the group that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.}
+	mode: ${10:# The permissions the resulting filesystem object should have.For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.Giving Ansible a number }
+	others: ${11:# All arguments accepted by the M(ansible.builtin.file) module also work here.}
+	owner: ${12:# Name of the user that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion.}
+	replace: ${13:""}
+	selevel: ${14:# The level part of the SELinux filesystem object context.This is the MLS/MCS attribute, sometimes known as the C(range).When set to V(_default), it will use the C(level) portion of the policy if available.}
+	serole: ${15:# The role part of the SELinux filesystem object context.When set to V(_default), it will use the C(role) portion of the policy if available.}
+	setype: ${16:# The type part of the SELinux filesystem object context.When set to V(_default), it will use the C(type) portion of the policy if available.}
+	seuser: ${17:# The user part of the SELinux filesystem object context.By default it uses the V(system) policy, where applicable.When set to V(_default), it will use the C(user) portion of the policy if available.}
+	unsafe_writes: ${18:false}
+	validate: ${19:# The validation command to run before copying the updated file into the final destination.A temporary file path is used to validate, passed in through '%s' which must be present as in the examples below.Also, the command is passed securely so shell features such as expansion and pipes will not work.For an example on how to handle more complex validation than what this option provides, see R(handling complex validation,complex_configuration_validation).}
+endsnippet
+snippet rpm_key "Adds or removes a gpg key from the rpm db" b
+ansible.builtin.rpm_key:
+	key: ${1:# Key that will be modified. Can be a url, a file on the managed node, or a keyid if the key already exists in the database.}
+
+	fingerprint: ${3:# The long-form fingerprint of the key being imported.This will be used to verify the specified key.}
+	state: ${4:absent|#present}
+	validate_certs: ${5:true}
+endsnippet
+snippet script "Runs a local script on a remote node after transferring it" b
+ansible.builtin.script:
+	chdir: ${1:# Change into this directory on the remote node before running the script.}
+	cmd: ${2:# Path to the local script to run followed by optional arguments.}
+	creates: ${3:# A filename on the remote node, when it already exists, this step will B(not) be run.}
+	decrypt: ${4:true}
+	executable: ${5:# Name or path of an executable to invoke the script with.}
+	${6:free_form: # Path to the local script file followed by optional arguments.}
+	removes: ${7:# A filename on the remote node, when it does not exist, this step will B(not) be run.}
+endsnippet
+snippet service "Manage services" b
+ansible.builtin.service:
+	name: ${1:# Name of the service.}
+
+	arguments: ${3:""}
+	enabled: ${4:# Whether the service should start on boot.B(At least one of state and enabled are required.)}
+	pattern: ${5:# If the service does not respond to the status command, name a substring to look for as would be found in the output of the I(ps) command as a stand-in for a status result.If the string is found, the service will be assumed to be started.While using remote hosts with systemd this setting will be ignored.}
+	runlevel: ${6:default}
+	sleep: ${7:# If the service is being V(restarted) then sleep this many seconds between the stop and start command.This helps to work around badly-behaving init scripts that exit immediately after signaling a process to stop.Not all service managers support sleep, i.e when using systemd this setting will be ignored.}
+	state: ${8:reloaded|restarted|started|stopped}
+	use: ${9:auto}
+endsnippet
+snippet service_facts "Return service state information as fact data" b
+ansible.builtin.service_facts:
+endsnippet
+snippet set_fact "Set host variable(s) and fact(s)." b
+ansible.builtin.set_fact:
+	key_value: ${1:# The M(ansible.builtin.set_fact) module takes C(key=value) pairs or C(key: value) (YAML notation) as variables to set in the playbook scope. The 'key' is the resulting variable name and the value is, of course, the value of said variable.You can create multiple variables at once, by supplying multiple pairs, but do NOT mix notations.}
+
+	cacheable: ${3:false}
+endsnippet
+snippet set_stats "Define and display stats for the current ansible run" b
+ansible.builtin.set_stats:
+	data: ${1:# A dictionary of which each key represents a stat (or variable) you want to keep track of.}
+
+	aggregate: ${3:true}
+	per_host: ${4:false}
+endsnippet
+snippet setup "Gathers facts about remote hosts" b
+ansible.builtin.setup:
+	fact_path: ${1:/etc/ansible/facts.d}
+	filter: ${2:[]}
+	gather_subset: ${3:all}
+	gather_timeout: ${4:10}
+endsnippet
+snippet shell "Execute shell commands on targets" b
+ansible.builtin.shell:
+	chdir: ${1:# Change into this directory before running the command.}
+	cmd: ${2:# The command to run followed by optional arguments.}
+	creates: ${3:# A filename, when it already exists, this step will B(not) be run.}
+	executable: ${4:# Change the shell used to execute the command.This expects an absolute path to the executable.}
+	${5:free_form: # The shell module takes a free form command to run, as a string.There is no actual parameter named 'free form'.See the examples on how to use this module.}
+	removes: ${6:# A filename, when it does not exist, this step will B(not) be run.}
+	stdin: ${7:# Set the stdin of the command directly to the specified value.}
+	stdin_add_newline: ${8:true}
+endsnippet
+snippet slurp "Slurps a file from remote nodes" b
+ansible.builtin.slurp:
+	src: ${1:# The file on the remote system to fetch. This I(must) be a file, not a directory.}
+endsnippet
+snippet stat "Retrieve file or file system status" b
+ansible.builtin.stat:
+	path: ${1:# The full path of the file/object to get the facts of.}
+
+	checksum_algorithm: ${3:md5|#sha1|sha224|sha256|sha384|sha512}
+	follow: ${4:false}
+	get_attributes: ${5:true}
+	get_checksum: ${6:true}
+	get_mime: ${7:true}
+endsnippet
+snippet subversion "Deploys a subversion repository" b
+ansible.builtin.subversion:
+	repo: ${1:# The subversion URL to the repository.}
+
+	checkout: ${3:true}
+	dest: ${4:# Absolute path where the repository should be deployed.The destination directory must be specified unless O(checkout=no), O(update=no), and O(export=no).}
+	executable: ${5:# Path to svn executable to use. If not supplied, the normal mechanism for resolving binary paths will be used.}
+	export: ${6:false}
+	force: ${7:false}
+	in_place: ${8:false}
+	password: ${9:# C(--password) parameter passed to svn when svn is less than version 1.10.0. This is not secure and the password will be leaked to argv.C(--password-from-stdin) parameter when svn is greater or equal to version 1.10.0.}
+	revision: ${10:HEAD}
+	switch: ${11:true}
+	update: ${12:true}
+	username: ${13:# C(--username) parameter passed to svn.}
+	validate_certs: ${14:false}
+endsnippet
+snippet systemd_service "Manage systemd units" b
+ansible.builtin.systemd_service:
+	daemon_reexec: ${1:false}
+	daemon_reload: ${2:false}
+	enabled: ${3:# Whether the unit should start on boot. B(At least one of state and enabled are required.)}
+	force: ${4:# Whether to override existing symlinks.}
+	masked: ${5:# Whether the unit should be masked or not, a masked unit is impossible to start.}
+	name: ${6:# Name of the unit. This parameter takes the name of exactly one unit to work with.When no extension is given, it is implied to a C(.service) as systemd.When using in a chroot environment you always need to specify the name of the unit with the extension. For example, C(crond.service).}
+	no_block: ${7:false}
+	scope: ${8:#system|user|global}
+	state: ${9:reloaded|restarted|started|stopped}
+endsnippet
+snippet systemd_service "Manage systemd units" b
+ansible.builtin.systemd_service:
+	daemon_reexec: ${1:false}
+	daemon_reload: ${2:false}
+	enabled: ${3:# Whether the unit should start on boot. B(At least one of state and enabled are required.)}
+	force: ${4:# Whether to override existing symlinks.}
+	masked: ${5:# Whether the unit should be masked or not, a masked unit is impossible to start.}
+	name: ${6:# Name of the unit. This parameter takes the name of exactly one unit to work with.When no extension is given, it is implied to a C(.service) as systemd.When using in a chroot environment you always need to specify the name of the unit with the extension. For example, C(crond.service).}
+	no_block: ${7:false}
+	scope: ${8:#system|user|global}
+	state: ${9:reloaded|restarted|started|stopped}
+endsnippet
+snippet sysvinit "Manage SysV services." b
+ansible.builtin.sysvinit:
+	name: ${1:# Name of the service.}
+
+	arguments: ${3:# Additional arguments provided on the command line that some init scripts accept.}
+	daemonize: ${4:false}
+	enabled: ${5:# Whether the service should start on boot. B(At least one of state and enabled are required.)}
+	pattern: ${6:# A substring to look for as would be found in the output of the I(ps) command as a stand-in for a status result.If the string is found, the service will be assumed to be running.This option is mainly for use with init scripts that don't support the 'status' option.}
+	runlevels: ${7:# The runlevels this script should be enabled/disabled from.Use this to override the defaults set by the package or init script itself.}
+	sleep: ${8:1}
+	state: ${9:started|stopped|restarted|reloaded}
+endsnippet
+snippet tempfile "Creates temporary files and directories" b
+ansible.builtin.tempfile:
+	path: ${1:# Location where temporary file or directory should be created.If path is not specified, the default system temporary directory will be used.}
+	prefix: ${2:ansible.}
+	state: ${3:directory|#file}
+	suffix: ${4:""}
+endsnippet
+snippet template "Template a file out to a target host" b
+ansible.builtin.template:
+	dest: ${1:# Location to render the template to on the remote machine.}
+	src: ${2:# Path of a Jinja2 formatted template on the Ansible controller.This can be a relative or an absolute path.The file must be encoded with C(utf-8) but O(output_encoding) can be used to control the encoding of the output template.}
+
+	attributes: ${4:# The attributes the resulting filesystem object should have.To get supported flags look at the man page for I(chattr) on the target system.This string should contain the attributes in the same order as the one displayed by I(lsattr).The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string.}
+	backup: ${5:false}
+	block_end_string: ${6:%\}}
+	block_start_string: ${7:\{%}
+	comment_end_string: ${8:# The string marking the end of a comment statement.}
+	comment_start_string: ${9:# The string marking the beginning of a comment statement.}
+	follow: ${10:false}
+	force: ${11:true}
+	group: ${12:# Name of the group that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.}
+	lstrip_blocks: ${13:false}
+	mode: ${14:# The permissions the resulting filesystem object should have.For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.Giving Ansible a number }
+	newline_sequence: ${15:#\n|\r|\r\n}
+	output_encoding: ${16:utf-8}
+	owner: ${17:# Name of the user that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion.}
+	selevel: ${18:# The level part of the SELinux filesystem object context.This is the MLS/MCS attribute, sometimes known as the C(range).When set to V(_default), it will use the C(level) portion of the policy if available.}
+	serole: ${19:# The role part of the SELinux filesystem object context.When set to V(_default), it will use the C(role) portion of the policy if available.}
+	setype: ${20:# The type part of the SELinux filesystem object context.When set to V(_default), it will use the C(type) portion of the policy if available.}
+	seuser: ${21:# The user part of the SELinux filesystem object context.By default it uses the V(system) policy, where applicable.When set to V(_default), it will use the C(user) portion of the policy if available.}
+	trim_blocks: ${22:true}
+	unsafe_writes: ${23:false}
+	validate: ${24:# The validation command to run before copying the updated file into the final destination.A temporary file path is used to validate, passed in through '%s' which must be present as in the examples below.Also, the command is passed securely so shell features such as expansion and pipes will not work.For an example on how to handle more complex validation than what this option provides, see R(handling complex validation,complex_configuration_validation).}
+	variable_end_string: ${25:\}\}}
+	variable_start_string: ${26:\{\{}
+endsnippet
+snippet unarchive "Unpacks an archive after (optionally) copying it from the local machine" b
+ansible.builtin.unarchive:
+	dest: ${1:# Remote absolute path where the archive should be unpacked.The given path must exist. Base directory is not created by this module.}
+	src: ${2:# If O(remote_src=no) (default), local path to archive file to copy to the target server; can be absolute or relative. If O(remote_src=yes), path on the target server to existing archive file to unpack.If O(remote_src=yes) and O(src) contains V(://), the remote machine will download the file from the URL first. (version_added 2.0). This is only for simple cases, for full download support use the M(ansible.builtin.get_url) module.}
+
+	attributes: ${4:# The attributes the resulting filesystem object should have.To get supported flags look at the man page for I(chattr) on the target system.This string should contain the attributes in the same order as the one displayed by I(lsattr).The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string.}
+	copy: ${5:true}
+	creates: ${6:# If the specified absolute path (file or directory) already exists, this step will B(not) be run.The specified absolute path (file or directory) must be below the base path given with O(dest).}
+	decrypt: ${7:true}
+	exclude: ${8:[]}
+	extra_opts: ${9:[]}
+	group: ${10:# Name of the group that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.}
+	include: ${11:[]}
+	io_buffer_size: ${12:65536}
+	keep_newer: ${13:false}
+	list_files: ${14:false}
+	mode: ${15:# The permissions the resulting filesystem object should have.For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.Giving Ansible a number }
+	owner: ${16:# Name of the user that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion.}
+	remote_src: ${17:false}
+	selevel: ${18:# The level part of the SELinux filesystem object context.This is the MLS/MCS attribute, sometimes known as the C(range).When set to V(_default), it will use the C(level) portion of the policy if available.}
+	serole: ${19:# The role part of the SELinux filesystem object context.When set to V(_default), it will use the C(role) portion of the policy if available.}
+	setype: ${20:# The type part of the SELinux filesystem object context.When set to V(_default), it will use the C(type) portion of the policy if available.}
+	seuser: ${21:# The user part of the SELinux filesystem object context.By default it uses the V(system) policy, where applicable.When set to V(_default), it will use the C(user) portion of the policy if available.}
+	unsafe_writes: ${22:false}
+	validate_certs: ${23:true}
+endsnippet
+snippet uri "Interacts with webservices" b
+ansible.builtin.uri:
+	url: ${1:# HTTP or HTTPS URL in the form (http|https)://host.domain[:port]/path}
+
+	attributes: ${3:# The attributes the resulting filesystem object should have.To get supported flags look at the man page for I(chattr) on the target system.This string should contain the attributes in the same order as the one displayed by I(lsattr).The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string.}
+	body: ${4:# The body of the http request/response to the web service. If O(body_format) is set to V(json) it will take an already formatted JSON string or convert a data structure into JSON.If O(body_format) is set to V(form-urlencoded) it will convert a dictionary or list of tuples into an 'application/x-www-form-urlencoded' string. (Added in v2.7)If O(body_format) is set to V(form-multipart) it will convert a dictionary into 'multipart/form-multipart' body. (Added in v2.10)}
+	body_format: ${5:form-urlencoded|json|#raw|form-multipart}
+	ca_path: ${6:# PEM formatted file that contains a CA certificate to be used for validation}
+	ciphers: ${7:# SSL/TLS Ciphers to use for the request.When a list is provided, all ciphers are joined in order with V(:)See the L(OpenSSL Cipher List Format,https://www.openssl.org/docs/manmaster/man1/openssl-ciphers.html#CIPHER-LIST-FORMAT) for more details.The available ciphers is dependent on the Python and OpenSSL/LibreSSL versions}
+	client_cert: ${8:# PEM formatted certificate chain file to be used for SSL client authentication.This file can also include the key as well, and if the key is included, O(client_key) is not required}
+	client_key: ${9:# PEM formatted file that contains your private key to be used for SSL client authentication.If O(client_cert) contains both the certificate and key, this option is not required.}
+	creates: ${10:# A filename, when it already exists, this step will not be run.}
+	decompress: ${11:true}
+	dest: ${12:# A path of where to download the file to (if desired). If O(dest) is a directory, the basename of the file on the remote server will be used.}
+	follow_redirects: ${13:all|no|none|#safe|urllib2|yes}
+	force: ${14:false}
+	force_basic_auth: ${15:false}
+	group: ${16:# Name of the group that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.}
+	headers: ${17:{}}
+	http_agent: ${18:ansible-httpget}
+	method: ${19:GET}
+	mode: ${20:# The permissions the resulting filesystem object should have.For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.Giving Ansible a number }
+	owner: ${21:# Name of the user that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion.}
+	remote_src: ${22:false}
+	removes: ${23:# A filename, when it does not exist, this step will not be run.}
+	return_content: ${24:false}
+	selevel: ${25:# The level part of the SELinux filesystem object context.This is the MLS/MCS attribute, sometimes known as the C(range).When set to V(_default), it will use the C(level) portion of the policy if available.}
+	serole: ${26:# The role part of the SELinux filesystem object context.When set to V(_default), it will use the C(role) portion of the policy if available.}
+	setype: ${27:# The type part of the SELinux filesystem object context.When set to V(_default), it will use the C(type) portion of the policy if available.}
+	seuser: ${28:# The user part of the SELinux filesystem object context.By default it uses the V(system) policy, where applicable.When set to V(_default), it will use the C(user) portion of the policy if available.}
+	src: ${29:# Path to file to be submitted to the remote server.Cannot be used with O(body).Should be used with O(force_basic_auth) to ensure success when the remote end sends a 401.}
+	status_code: ${30:[200]}
+	timeout: ${31:30}
+	unix_socket: ${32:# Path to Unix domain socket to use for connection}
+	unredirected_headers: ${33:[]}
+	unsafe_writes: ${34:false}
+	url_password: ${35:# A password for the module to use for Digest, Basic or WSSE authentication.}
+	url_username: ${36:# A username for the module to use for Digest, Basic or WSSE authentication.}
+	use_gssapi: ${37:false}
+	use_netrc: ${38:true}
+	use_proxy: ${39:true}
+	validate_certs: ${40:true}
+endsnippet
+snippet user "Manage user accounts" b
+ansible.builtin.user:
+	name: ${1:# Name of the user to create, remove or modify.}
+
+	append: ${3:false}
+	authorization: ${4:# Sets the authorization of the user.Can set multiple authorizations using comma separation.To delete all authorizations, use O(authorization='').Currently supported on Illumos/Solaris. Does nothing when used with other platforms.}
+	comment: ${5:# Optionally sets the description (aka I(GECOS)) of user account.On macOS, this defaults to the O(name) option.}
+	create_home: ${6:true}
+	expires: ${7:# An expiry time for the user in epoch, it will be ignored on platforms that do not support this.Currently supported on GNU/Linux, FreeBSD, and DragonFlyBSD.Since Ansible 2.6 you can remove the expiry time by specifying a negative value. Currently supported on GNU/Linux and FreeBSD.}
+	force: ${8:false}
+	generate_ssh_key: ${9:false}
+	group: ${10:# Optionally sets the user's primary group (takes a group name).On macOS, this defaults to V('staff')}
+	groups: ${11:# A list of supplementary groups which the user is also a member of.By default, the user is removed from all other groups. Configure O(append) to modify this.When set to an empty string V(''), the user is removed from all groups except the primary group.Before Ansible 2.3, the only input format allowed was a comma separated string.}
+	hidden: ${12:# macOS only, optionally hide the user from the login window and system preferences.The default will be V(true) if the O(system) option is used.}
+	home: ${13:# Optionally set the user's home directory.}
+	local: ${14:false}
+	login_class: ${15:# Optionally sets the user's login class, a feature of most BSD OSs.}
+	move_home: ${16:false}
+	non_unique: ${17:false}
+	password: ${18:# If provided, set the user's password to the provided encrypted hash (Linux) or plain text password (macOS).B(Linux/Unix/POSIX:) Enter the hashed password as the value.See L(FAQ entry,https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module) for details on various ways to generate the hash of a password.To create an account with a locked/disabled password on Linux systems, set this to V('!') or V('*').To create an account with a locked/di}
+	password_expire_max: ${19:# Maximum number of days between password change.Supported on Linux only.}
+	password_expire_min: ${20:# Minimum number of days between password change.Supported on Linux only.}
+	password_expire_warn: ${21:# Number of days of warning before password expires.Supported on Linux only.}
+	password_lock: ${22:# Lock the password (C(usermod -L), C(usermod -U), C(pw lock)).Implementation differs by platform. This option does not always mean the user cannot login using other methods.This option does not disable the user, only lock the password.This must be set to V(False) in order to unlock a currently locked password. The absence of this parameter will not unlock a password.Currently supported on Linux, FreeBSD, DragonFlyBSD, NetBSD, OpenBSD.}
+	profile: ${23:# Sets the profile of the user.Can set multiple profiles using comma separation.To delete all the profiles, use O(profile='').Currently supported on Illumos/Solaris. Does nothing when used with other platforms.}
+	remove: ${24:false}
+	role: ${25:# Sets the role of the user.Can set multiple roles using comma separation.To delete all roles, use O(role='').Currently supported on Illumos/Solaris. Does nothing when used with other platforms.}
+	seuser: ${26:# Optionally sets the seuser type (user_u) on selinux enabled systems.}
+	shell: ${27:# Optionally set the user's shell.On macOS, before Ansible 2.5, the default shell for non-system users was V(/usr/bin/false). Since Ansible 2.5, the default shell for non-system users on macOS is V(/bin/bash).See notes for details on how other operating systems determine the default shell by the underlying tool.}
+	skeleton: ${28:# Optionally set a home skeleton directory.Requires O(create_home) option!}
+	ssh_key_bits: ${29:# Optionally specify number of bits in SSH key to create.The default value depends on ssh-keygen.}
+	ssh_key_comment: ${30:ansible-generated on \$HOSTNAME}
+	ssh_key_file: ${31:# Optionally specify the SSH key filename.If this is a relative filename then it will be relative to the user's home directory.This parameter defaults to V(.ssh/id_rsa).}
+	ssh_key_passphrase: ${32:# Set a passphrase for the SSH key.If no passphrase is provided, the SSH key will default to having no passphrase.}
+	ssh_key_type: ${33:rsa}
+	state: ${34:absent|#present}
+	system: ${35:false}
+	uid: ${36:# Optionally sets the I(UID) of the user.}
+	umask: ${37:# Sets the umask of the user.Currently supported on Linux. Does nothing when used with other platforms.Requires O(local) is omitted or V(False).}
+	update_password: ${38:#always|on_create}
+endsnippet
+snippet validate_argument_spec "Validate role argument specs." b
+ansible.builtin.validate_argument_spec:
+	argument_spec: ${1:# A dictionary like AnsibleModule argument_spec. See R(argument spec definition,argument_spec)}
+
+	provided_arguments: ${3:# A dictionary of the arguments that will be validated according to argument_spec}
+endsnippet
+snippet wait_for "Waits for a condition before continuing" b
+ansible.builtin.wait_for:
+	active_connection_states: ${1:['ESTABLISHED', 'FIN_WAIT1', 'FIN_WAIT2', 'SYN_RECV', 'SYN_SENT', 'TIME_WAIT']}
+	connect_timeout: ${2:5}
+	delay: ${3:0}
+	exclude_hosts: ${4:# List of hosts or IPs to ignore when looking for active TCP connections for V(drained) state.}
+	host: ${5:127.0.0.1}
+	msg: ${6:# This overrides the normal error message from a failure to meet the required conditions.}
+	path: ${7:# Path to a file on the filesystem that must exist before continuing.O(path) and O(port) are mutually exclusive parameters.}
+	port: ${8:# Port number to poll.O(path) and O(port) are mutually exclusive parameters.}
+	search_regex: ${9:# Can be used to match a string in either a file or a socket connection.Defaults to a multiline regex.}
+	sleep: ${10:1}
+	state: ${11:absent|drained|present|#started|stopped}
+	timeout: ${12:300}
+endsnippet
+snippet wait_for_connection "Waits until remote system is reachable/usable" b
+ansible.builtin.wait_for_connection:
+	connect_timeout: ${1:5}
+	delay: ${2:0}
+	sleep: ${3:1}
+	timeout: ${4:600}
+endsnippet
+snippet yum "Manages packages with the I(yum) package manager" b
+ansible.builtin.yum:
+	allow_downgrade: ${1:false}
+	autoremove: ${2:false}
+	bugfix: ${3:false}
+	cacheonly: ${4:false}
+	conf_file: ${5:# The remote yum configuration file to use for the transaction.}
+	disable_excludes: ${6:# Disable the excludes defined in YUM config files.If set to V(all), disables all excludes.If set to V(main), disable excludes defined in [main] in yum.conf.If set to V(repoid), disable excludes defined for given repo id.}
+	disable_gpg_check: ${7:false}
+	disable_plugin: ${8:[]}
+	disablerepo: ${9:[]}
+	download_dir: ${10:# Specifies an alternate directory to store packages.Has an effect only if O(download_only) is specified.}
+	download_only: ${11:false}
+	enable_plugin: ${12:[]}
+	enablerepo: ${13:[]}
+	exclude: ${14:[]}
+	install_repoquery: ${15:true}
+	install_weak_deps: ${16:true}
+	installroot: ${17:/}
+	list: ${18:# Package name to run the equivalent of C(yum list --show-duplicates <package>) against. In addition to listing packages, use can also list the following: V(installed), V(updates), V(available) and V(repos).This parameter is mutually exclusive with O(name).}
+	lock_timeout: ${19:30}
+	name: ${20:[]}
+	releasever: ${21:# Specifies an alternative release from which all packages will be installed.}
+	security: ${22:false}
+	skip_broken: ${23:false}
+	sslverify: ${24:true}
+	state: ${25:absent|installed|latest|present|removed}
+	update_cache: ${26:false}
+	update_only: ${27:false}
+	use_backend: ${28:#auto|yum|yum4|dnf|dnf4|dnf5}
+	validate_certs: ${29:true}
+endsnippet
+snippet yum_repository "Add or remove YUM repositories" b
+ansible.builtin.yum_repository:
+	name: ${1:# Unique repository ID. This option builds the section name of the repository in the repo file.This parameter is only required if O(state) is set to V(present) or V(absent).}
+
+	async: ${3:# If set to V(true) Yum will download packages and metadata from this repo in parallel, if possible.In ansible-core 2.11, 2.12, and 2.13 the default value is V(true).This option has been deprecated in RHEL 8. If you're using one of the versions listed above, you can set this option to None to avoid passing an unknown configuration option.}
+	attributes: ${4:# The attributes the resulting filesystem object should have.To get supported flags look at the man page for I(chattr) on the target system.This string should contain the attributes in the same order as the one displayed by I(lsattr).The C(=) operator is assumed as default, otherwise C(+) or C(-) operators need to be included in the string.}
+	bandwidth: ${5:# Maximum available network bandwidth in bytes/second. Used with the O(throttle) option.If O(throttle) is a percentage and bandwidth is V(0) then bandwidth throttling will be disabled. If O(throttle) is expressed as a data rate (bytes/sec) then this option is ignored. Default is V(0) (no bandwidth throttling).}
+	baseurl: ${6:# URL to the directory where the yum repository's 'repodata' directory lives.It can also be a list of multiple URLs.This, the O(metalink) or O(mirrorlist) parameters are required if O(state) is set to V(present).}
+	cost: ${7:# Relative cost of accessing this repository. Useful for weighing one repo's packages as greater/less than any other.}
+	deltarpm_metadata_percentage: ${8:# When the relative size of deltarpm metadata vs pkgs is larger than this, deltarpm metadata is not downloaded from the repo. Note that you can give values over V(100), so V(200) means that the metadata is required to be half the size of the packages. Use V(0) to turn off this check, and always download metadata.}
+	deltarpm_percentage: ${9:# When the relative size of delta vs pkg is larger than this, delta is not used. Use V(0) to turn off delta rpm processing. Local repositories (with file://O(baseurl)) have delta rpms turned off by default.}
+	description: ${10:# A human readable string describing the repository. This option corresponds to the 'name' property in the repo file.This parameter is only required if O(state) is set to V(present).}
+	enabled: ${11:# This tells yum whether or not use this repository.Yum default value is V(true).}
+	enablegroups: ${12:# Determines whether yum will allow the use of package groups for this repository.Yum default value is V(true).}
+	exclude: ${13:# List of packages to exclude from updates or installs. This should be a space separated list. Shell globs using wildcards (for example V(*) and V(?)) are allowed.The list can also be a regular YAML array.}
+	failovermethod: ${14:roundrobin|priority}
+	file: ${15:# File name without the C(.repo) extension to save the repo in. Defaults to the value of O(name).}
+	gpgcakey: ${16:# A URL pointing to the ASCII-armored CA key file for the repository.}
+	gpgcheck: ${17:# Tells yum whether or not it should perform a GPG signature check on packages.No default setting. If the value is not set, the system setting from C(/etc/yum.conf) or system default of V(false) will be used.}
+	gpgkey: ${18:# A URL pointing to the ASCII-armored GPG key file for the repository.It can also be a list of multiple URLs.}
+	group: ${19:# Name of the group that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current group of the current user unless you are root, in which case it can preserve the previous ownership.}
+	http_caching: ${20:all|packages|none}
+	include: ${21:# Include external configuration file. Both, local path and URL is supported. Configuration file will be inserted at the position of the C(include=) line. Included files may contain further include lines. Yum will abort with an error if an inclusion loop is detected.}
+	includepkgs: ${22:# List of packages you want to only use from a repository. This should be a space separated list. Shell globs using wildcards (for example V(*) and V(?)) are allowed. Substitution variables (for example V(\$releasever)) are honored here.The list can also be a regular YAML array.}
+	ip_resolve: ${23:4|6|IPv4|IPv6|whatever}
+	keepalive: ${24:# This tells yum whether or not HTTP/1.1 keepalive should be used with this repository. This can improve transfer speeds by using one connection when downloading multiple files from a repository.}
+	keepcache: ${25:0|1}
+	metadata_expire: ${26:# Time (in seconds) after which the metadata will expire.Default value is 6 hours.}
+	metadata_expire_filter: ${27:never|read-only:past|read-only:present|read-only:future}
+	metalink: ${28:# Specifies a URL to a metalink file for the repomd.xml, a list of mirrors for the entire repository are generated by converting the mirrors for the repomd.xml file to a O(baseurl).This, the O(baseurl) or O(mirrorlist) parameters are required if O(state) is set to V(present).}
+	mirrorlist: ${29:# Specifies a URL to a file containing a list of baseurls.This, the O(baseurl) or O(metalink) parameters are required if O(state) is set to V(present).}
+	mirrorlist_expire: ${30:# Time (in seconds) after which the mirrorlist locally cached will expire.Default value is 6 hours.}
+	mode: ${31:# The permissions the resulting filesystem object should have.For those used to I(/usr/bin/chmod) remember that modes are actually octal numbers. You must give Ansible enough information to parse them correctly. For consistent results, quote octal numbers (for example, V('644') or V('1777')) so Ansible receives a string and can do its own conversion from string into number. Adding a leading zero (for example, V(0755)) works sometimes, but can fail in loops and some other circumstances.Giving Ansible a number }
+	module_hotfixes: ${32:# Disable module RPM filtering and make all RPMs from the repository available. The default is V(None).}
+	owner: ${33:# Name of the user that should own the filesystem object, as would be fed to I(chown).When left unspecified, it uses the current user unless you are root, in which case it can preserve the previous ownership.Specifying a numeric username will be assumed to be a user ID and not a username. Avoid numeric usernames to avoid this confusion.}
+	password: ${34:# Password to use with the username for basic authentication.}
+	priority: ${35:# Enforce ordered protection of repositories. The value is an integer from 1 to 99.This option only works if the YUM Priorities plugin is installed.}
+	protect: ${36:# Protect packages from updates from other repositories.}
+	proxy: ${37:# URL to the proxy server that yum should use. Set to V(_none_) to disable the global proxy setting.}
+	proxy_password: ${38:# Password for this proxy.}
+	proxy_username: ${39:# Username to use for proxy.}
+	repo_gpgcheck: ${40:# This tells yum whether or not it should perform a GPG signature check on the repodata from this repository.}
+	reposdir: ${41:/etc/yum.repos.d}
+	retries: ${42:# Set the number of times any attempt to retrieve a file should retry before returning an error. Setting this to V(0) makes yum try forever.}
+	s3_enabled: ${43:# Enables support for S3 repositories.This option only works if the YUM S3 plugin is installed.}
+	selevel: ${44:# The level part of the SELinux filesystem object context.This is the MLS/MCS attribute, sometimes known as the C(range).When set to V(_default), it will use the C(level) portion of the policy if available.}
+	serole: ${45:# The role part of the SELinux filesystem object context.When set to V(_default), it will use the C(role) portion of the policy if available.}
+	setype: ${46:# The type part of the SELinux filesystem object context.When set to V(_default), it will use the C(type) portion of the policy if available.}
+	seuser: ${47:# The user part of the SELinux filesystem object context.By default it uses the V(system) policy, where applicable.When set to V(_default), it will use the C(user) portion of the policy if available.}
+	skip_if_unavailable: ${48:# If set to V(true) yum will continue running if this repository cannot be contacted for any reason. This should be set carefully as all repos are consulted for any given command.}
+	ssl_check_cert_permissions: ${49:# Whether yum should check the permissions on the paths for the certificates on the repository (both remote and local).If we can't read any of the files then yum will force O(skip_if_unavailable) to be V(true). This is most useful for non-root processes which use yum on repos that have client cert files which are readable only by root.}
+	sslcacert: ${50:# Path to the directory containing the databases of the certificate authorities yum should use to verify SSL certificates.}
+	sslclientcert: ${51:# Path to the SSL client certificate yum should use to connect to repos/remote sites.}
+	sslclientkey: ${52:# Path to the SSL client key yum should use to connect to repos/remote sites.}
+	sslverify: ${53:# Defines whether yum should verify SSL certificates/hosts at all.}
+	state: ${54:absent|#present}
+	throttle: ${55:# Enable bandwidth throttling for downloads.This option can be expressed as a absolute data rate in bytes/sec. An SI prefix (k, M or G) may be appended to the bandwidth value.}
+	timeout: ${56:# Number of seconds to wait for a connection before timing out.}
+	ui_repoid_vars: ${57:# When a repository id is displayed, append these yum variables to the string if they are used in the O(baseurl)/etc. Variables are appended in the order listed (and found).}
+	unsafe_writes: ${58:false}
+	username: ${59:# Username to use for basic authentication to a repo or really any url.}
+endsnippet
