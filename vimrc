@@ -10,6 +10,8 @@ set encoding=utf-8
 set fileencoding=utf-8
 
 " Colorscheme
+set background=dark
+let g:gruvbox_guisp_fallback = "bg"
 colorscheme gruvbox
 let g:gruvbox_italic=1
 
@@ -88,6 +90,7 @@ xmap * }
 autocmd Filetype gitcommit setlocal spell textwidth=72 spell spelllang=en
 autocmd FileType python setlocal formatprg=black\ -l79\ -\ 2>\ /dev/null
 autocmd FileType qf setlocal colorcolumn=
+autocmd FileType mail,markdown,rst,tex setlocal spell spelllang=de
 
 " mucomplete
 set completeopt+=menuone
@@ -98,6 +101,7 @@ set complete-=t
 set shortmess+=c
 set belloff+=ctrlg
 let g:mucomplete#completion_delay = 500
+let g:mucomplete#reopen_immediately = 0
 
 let g:mucomplete#chains = {}
 let g:mucomplete#chains['default']   =  {
